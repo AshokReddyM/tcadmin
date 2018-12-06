@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="0.5dp"
+    android:background="@drawable/ripple_custom"
+    android:paddingBottom="15dp"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp"
+    android:paddingTop="15dp">
+
+
+    <com.byt_eye.tcadmin.CustomTextView
+        android:id="@+id/titleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/img"
+        android:layout_toRightOf="@+id/img"
+        android:layout_toStartOf="@+id/img"
+        android:lineSpacingExtra="5dp"
+        android:maxLines="2"
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:text="Hello"
+        android:textColor="#212121"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/post_from_web_link"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/titleText"
+        android:maxLength="25"
+        android:paddingBottom="2dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="2dp"
+        android:text="google.com"
+        android:textColor="#c1c1c1"
+        android:textSize="10dp" />
+
+
+</RelativeLayout>

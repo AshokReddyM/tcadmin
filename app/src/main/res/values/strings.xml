@@ -1,0 +1,94 @@
+﻿<resources>
+    <string name="app_name">TC Admin</string>
+
+    <string-array name="telugu_websites_feed_links" formatted="false">
+        <item>http://www.koradanews.com/telugu/category/movies/feed/</item>
+        <item>http://www.apherald.com/rss/te</item>
+        <item>http://telugu.greatandhra.com/ga_quickcms/xml/news_movies_news_latest.xml</item>
+        <item>https://www.mirchi9.com/tag/telugu-movies/feed/</item>
+        <item>http://prabhanews.com/category/cinema/feed/</item>
+        <item>http://www.123telugu.com/telugu/feed</item>
+        <item>http://www.10tv.in/rss/cinema</item>
+        <item>https://www.cinemabazaar.in/category/cinema-news/telugu-cinema-news/feed/</item>
+        <item>http://telugu.annnews.in/telugu/rss/entertainment</item>
+        <item>www.telugusamachar.com/category/movies/feed/</item>
+        <item>http://www.adya.news/telugu/category/cinema/feed/</item>
+        <item>http://www.cinejosh.com/rss-feed/4/telugu.html</item>
+        <item>http://www.telugucinema.com/telugu-news/feed</item>
+        <item>http://telugu.greatandhra.com/ga_quickcms/xml/news_movie_gossip_latest.xml</item>
+        <item>http://www.telugumirchi.com/te/movies/feed/</item>
+        <item>http://telugu.samayam.com/cinema/rssfeedsection/48238931.cms</item>
+        <item>http://telugu.webdunia.com/rss/telugu-cinema-10201.rss</item>
+        <item>http://www.filmytollywood.com/te/feed/</item>
+        <item>http://www.telugumovies.com/movie-news/feed</item>
+        <item>http://updateap.com/category/movies/feed/</item>
+        <item>http://www.andhravilas.net/te/Categories/latest-news/feed/</item>
+        <item>http://telugu.telugujournalist.com/category/movies/feed/</item>
+        <item>http://www.cinejosh.com/rss-feed/2/telugu.html</item>
+        <item>http://telugu.namasteandhra.com/category/movies/feed/</item>
+        <item>http://www.vaartha.com/category/news/movies/feed/</item>
+        <item>http://telugu.thetelugufilmnagar.com/feed/</item>
+        <item>http://www.telugusquare.com/category/telugu-news/feed</item>
+        <item>http://manatelangana.news/category/telugu-movies-news/feed/</item>
+        <!--tupaki-->
+        <item>http://fetchrss.com/rss/59c9196d8a93f8990b8b4567467357845.xml</item>
+        <!--GreatAndhra-->
+        <item>https://feedity.com/greatandhra-com/UlNQWlFUVQ.rss</item>
+        <!--GreatAndhra Top-->
+        <item>https://feedity.com/greatandhra-com/UlNQWlFbUA.rss</item>
+        <!--Eenadu-->
+        <item>https://feedity.com/eenadu-net/UlNQWlFbVQ.rss</item>
+        <item>https://feedity.com/andhrajyothy-com/UlNQWlFbVA.rss</item>
+        <item>https://feedity.com/ntvtelugu-com/UlNQWlFbWw.rss</item>
+        <item>https://feedity.com/sakshi-com/UlNQWlFbWg.rss</item>
+        <item>http://visalaandhra.com/category/%E0%B0%B8%E0%B0%BF%E0%B0%A8%E0%B0%BF%E0%B0%AE%E0%B0%BE%E0%B0%B2%E0%B1%81/feed/</item>
+        <item>http://apdunia.com/category/movies/feed</item>
+        <item>http://vastavam.net/index.php/entertainment?format=feed</item>
+        <item>http://feeds.feedburner.com/tollywood-telugu-movie-latest-news?format=xml</item>
+        <item>https://www.telugu360.com/te/category/movies/feed/</item>
+        <item>http://telugu.tollyteaser.com/category/movie/latestnews/feed/</item>
+        <item>http://www.neticinema.com/telgu/feed</item>
+        <item>https://telugu.ap2tg.com/category/entertainment/feed/</item>
+        <item>http://www.teluguone.com/tmdb/rss_tlgossip.xml</item>
+        <item>https://news.google.com/news/rss/headlines/section/topic/ENTERTAINMENT.te_in/వినోద%20వార్తలు?ned=te_in&amp;hl=te</item>
+        <item>http://www.telugucm.com/telugu/category/movies/feed/</item>
+        <item>http://teluguglobal.in/telugu/category/cinema/movie-updates/feed/</item>
+        <item>http://www.tfpc.in/telugu/feed/</item>
+        <!--
+                <item>http://studiononline.com/category/entertainment/tollywood/feed/</item>
+        -->
+        <item>http://telugu.andhra99.com/category/cinema-news/feed/</item>
+        <item>http://telugu.v6news.tv/category/%E0%B0%B8%E0%B0%BF%E0%B0%A8%E0%B0%BF%E0%B0%AE%E0%B0%BE/feed</item>
+
+
+    </string-array>
+
+    <string-array name="encoded_websites" formatted="false">
+        <item>http://www.telugumovies.com/movie-news/feed</item>
+        <item>https://www.mirchi9.com/tag/telugu-movies/feed/</item>
+        <item>http://www.ntvtelugu.com/feed/</item>
+        <item>http://apdunia.com/category/movies/feed</item>
+        <item>http://www.adya.news/telugu/category/cinema/feed/</item>
+        <item>http://www.koradanews.com/telugu/category/movies/feed/</item>
+        <item>https://news.google.com/news/rss/headlines/section/topic/ENTERTAINMENT.te_in/వినోద%20వార్తలు?ned=te_in&amp;hl=te</item>
+        <item>http://www.telugumirchi.com/te/movies/feed/</item>
+        <item>http://www.filmytollywood.com/te/feed/</item>
+        <item>http://fetchrss.com/rss/59c9196d8a93f8990b8b4567467357845.xml</item>
+        <item>http://telugu.v6news.tv/category/%E0%B0%B8%E0%B0%BF%E0%B0%A8%E0%B0%BF%E0%B0%AE%E0%B0%BE/feed</item>
+        <item>http://updateap.com/category/movies/feed/</item>
+        <item>http://www.adya.news/telugu/category/cinema/feed/</item>
+        <item>http://www.cinejosh.com/rss-feed/2/telugu.html</item>
+        <item>http://www.vaartha.com/category/news/movies/feed/</item>
+        <item>http://www.cinejosh.com/rss-feed/2/telugu.html</item>
+        <item>http://manatelangana.news/category/telugu-movies-news/feed/</item>
+        <item>http://visalaandhra.com/category/%E0%B0%B8%E0%B0%BF%E0%B0%A8%E0%B0%BF%E0%B0%AE%E0%B0%BE%E0%B0%B2%E0%B1%81/feed/</item>
+        <item>http://apdunia.com/category/movies/feed</item>
+        <item>http://www.cinejosh.com/rss-feed/4/telugu.html</item>
+        <item>https://telugu.ap2tg.com/category/entertainment/feed/</item>
+        <item>http://prabhanews.com/category/cinema/feed/</item>
+        <!--<item>http://123josh.com/feed/</item>-->
+        <item>http://www.tfpc.in/telugu/feed/</item>
+    </string-array>
+
+
+</resources>

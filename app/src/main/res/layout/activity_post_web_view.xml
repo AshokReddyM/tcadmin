@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <RelativeLayout
+        android:id="@+id/post_heading_layout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#ffffff"
+        android:weightSum="1">
+
+        <ImageView
+            android:id="@+id/back_web_view"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_back"
+            android:tint="@color/colorAccent" />
+
+
+        <com.byt_eye.tcadmin.CustomTextView
+            android:id="@+id/post_heading_toolbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/back_web_view"
+            android:layout_alignTop="@+id/back_web_view"
+            android:layout_marginRight="40dp"
+            android:layout_toEndOf="@+id/back_web_view"
+            android:layout_toRightOf="@+id/back_web_view"
+            android:ellipsize="marquee"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:text="heading"
+            android:textSize="16dp"
+            android:textStyle="bold" />
+
+
+    </RelativeLayout>
+
+
+    <ProgressBar
+        android:id="@+id/web_page_loading_progress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/post_heading_layout" />
+
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
+
+    <WebView
+        android:id="@+id/post_web_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/web_page_loading_progress" />
+
+
+</RelativeLayout>
+
