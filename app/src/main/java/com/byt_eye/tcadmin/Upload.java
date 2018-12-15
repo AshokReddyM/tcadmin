@@ -1,7 +1,7 @@
 package com.byt_eye.tcadmin;
 
 
-class Upload {
+public class Upload {
 
     private String unique_key;
     private String title;

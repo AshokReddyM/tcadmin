@@ -13,6 +13,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
+import com.byt_eye.tcadmin.utils.DailyService;
 import com.evernote.android.job.JobManager;
 
 import java.util.Calendar;
@@ -32,7 +33,7 @@ public class Main2Activity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main2);
 
-        DemoSyncJob.schedulePeriodic();
+        DailyService.initDailyService(this, true);
 
 
 

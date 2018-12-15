@@ -16,6 +16,8 @@ import android.net.Uri;
 import android.support.v4.content.WakefulBroadcastReceiver;
 import android.util.Log;
 
+import com.byt_eye.tcadmin.listeners.RssPullService;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;

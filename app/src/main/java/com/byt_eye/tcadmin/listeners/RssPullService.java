@@ -1,14 +1,19 @@
-package com.byt_eye.tcadmin;
+package com.byt_eye.tcadmin.listeners;
 
-import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.IBinder;
+import android.support.annotation.NonNull;
+import android.support.v4.app.JobIntentService;
 
+import com.byt_eye.tcadmin.DBHandler;
+import com.byt_eye.tcadmin.HandleXML;
+import com.byt_eye.tcadmin.R;
+import com.byt_eye.tcadmin.RssFeedModel;
+import com.byt_eye.tcadmin.Upload;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ServerValue;
 
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -22,7 +27,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
-public class RssPullService extends IntentService {
+public class RssPullService extends JobIntentService {
 
     Context context;
     DBHandler dbHelper;
@@ -36,6 +41,9 @@ public class RssPullService extends IntentService {
     private int TAB_TAG;
     private String mReadStatus;
     private String mPublishedTime;
+
+    static final int SERVICE_JOB_ID = 50;
+
     URL url;
     InputStream inputStream;
     HandleXML handleXML;
@@ -44,25 +52,8 @@ public class RssPullService extends IntentService {
     private DatabaseReference mDatabase;
 
 
-    public RssPullService() {
-        super("RssPullService");
-    }
-
-    public RssPullService(String name) {
-        super(name);
-    }
-
-
     @Override
-    protected void onHandleIntent(Intent intent) {
-
-
-    }
-
-
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-
+    protected void onHandleWork(@NonNull Intent intent) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -137,7 +128,7 @@ public class RssPullService extends IntentService {
                                     dbHelper.addNews(mFeedModelList.get(j).title,
                                             mFeedModelList.get(j).link, mFeedModelList.get(j).imageUrl,
                                             mFeedModelList.get(j).publishedTime, mFeedModelList.get(j).description, mFeedModelList.get(j).readStatus);
-                                    setDataIntoFirebase(mFeedModelList.get(j).title, mFeedModelList.get(j).link, mFeedModelList.get(j).imageUrl,mFeedModelList.get(j).description);
+                                    setDataIntoFirebase(mFeedModelList.get(j).title, mFeedModelList.get(j).link, mFeedModelList.get(j).imageUrl, mFeedModelList.get(j).description);
                                     count++;
                                 } else {
                                     count++;
@@ -155,12 +146,6 @@ public class RssPullService extends IntentService {
             }
         }).start();
 
-        return START_STICKY;
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
     }
 
     @Override
@@ -168,10 +153,10 @@ public class RssPullService extends IntentService {
         return null;
     }
 
-    private void setDataIntoFirebase(String title, String link, String imageUrl,String description) {
+    private void setDataIntoFirebase(String title, String link, String imageUrl, String description) {
         //creating the upload object to store uploaded image details
         String uploadId = mDatabase.push().getKey();
-        Upload upload = new Upload(title, imageUrl, link, "0", settingCurrentTime(), uploadId,description);
+        Upload upload = new Upload(title, imageUrl, link, "0", settingCurrentTime(), uploadId, description);
         mDatabase.child(uploadId).setValue(upload);
 
     }
@@ -182,6 +167,19 @@ public class RssPullService extends IntentService {
         Calendar calendar = Calendar.getInstance();
         return sdf.format(calendar.getTime());
     }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        stopSelf();
+    }
+
+
+    public static void enqueueWork(Context context, Intent intent) {
+        enqueueWork(context, RssPullService.class, SERVICE_JOB_ID, intent);
+    }
+
 }
 
 
