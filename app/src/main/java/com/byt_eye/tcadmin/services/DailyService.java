@@ -1,4 +1,4 @@
-package com.byt_eye.tcadmin.utils;
+package com.byt_eye.tcadmin.services;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -7,6 +7,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
+
+import com.byt_eye.tcadmin.listeners.AlarmBroadcaster;
+import com.byt_eye.tcadmin.listeners.DeviceBootReceiver;
 
 import java.util.Calendar;
 
@@ -26,16 +29,15 @@ public class DailyService {
             //region Enable Daily Notifications
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(System.currentTimeMillis());
-            calendar.set(Calendar.HOUR_OF_DAY, 15);
-            calendar.set(Calendar.MINUTE, 50);
+            calendar.set(Calendar.HOUR_OF_DAY, 11);
+            calendar.set(Calendar.MINUTE, 40);
             calendar.set(Calendar.SECOND, 1);
             // if notification time is before selected time, send notification the next day
             if (calendar.before(Calendar.getInstance())) {
                 calendar.add(Calendar.DATE, 1);
             }
             if (manager != null) {
-                manager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                        AlarmManager.INTERVAL_DAY, pendingIntent);
+                manager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
                 }

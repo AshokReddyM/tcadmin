@@ -1,4 +1,4 @@
-package com.byt_eye.tcadmin;
+package com.byt_eye.tcadmin.data;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -6,9 +6,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.byt_eye.tcadmin.modals.RssFeedModel;
+
 import java.util.ArrayList;
 
-public class DBHandler extends SQLiteOpenHelper {
+public class DbOpenHelper extends SQLiteOpenHelper {
 
     // Database Version
     private static final int DATABASE_VERSION = 6;
@@ -25,7 +27,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String PUBLISHED_TIME = "published_time";
     private static final String READ_STATUS = "read_status";
 
-    public DBHandler(Context context) {
+    public DbOpenHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 

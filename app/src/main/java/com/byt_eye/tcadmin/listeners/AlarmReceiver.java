@@ -1,4 +1,4 @@
-package com.byt_eye.tcadmin;
+package com.byt_eye.tcadmin.listeners;
 
 import android.app.Activity;
 import android.app.Notification;
@@ -16,7 +16,9 @@ import android.net.Uri;
 import android.support.v4.content.WakefulBroadcastReceiver;
 import android.util.Log;
 
-import com.byt_eye.tcadmin.listeners.RssPullService;
+import com.byt_eye.tcadmin.R;
+import com.byt_eye.tcadmin.data.DbOpenHelper;
+import com.byt_eye.tcadmin.landing_page.MainActivity;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,7 +28,7 @@ import java.net.URL;
 public class AlarmReceiver extends WakefulBroadcastReceiver {
 
     Context context;
-    DBHandler dbHelper;
+    DbOpenHelper dbHelper;
     String[] websitesFeedsArray;
     NotificationManager notificationManager;
     Intent repeatingIntent;
@@ -43,7 +45,7 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 
         this.context = context;
-        dbHelper = new DBHandler(context);
+        dbHelper = new DbOpenHelper(context);
 
         Log.i("AlarmReceiver", "onReceive");
         sharedpreferences = context.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
@@ -51,7 +53,7 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
 
         try {
             notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            repeatingIntent = new Intent(context, Main2Activity.class);
+            repeatingIntent = new Intent(context, MainActivity.class);
             repeatingIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
             pendingIntent = PendingIntent.getBroadcast(context, 100, repeatingIntent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -92,7 +94,6 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
                     .setContentText(mNotificationTitle)
                     .setSmallIcon(R.drawable.ic_website)
                     .setTicker(mNotificationTitle)
-                    .setColor(Color.RED)
                     .setContentIntent(contentIntent)
                     .setStyle(new Notification.BigTextStyle().bigText(mNotificationTitle))
                     .build();

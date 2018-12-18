@@ -1,4 +1,4 @@
-package com.byt_eye.tcadmin;
+package com.byt_eye.tcadmin.postNews;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -7,13 +7,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.byt_eye.tcadmin.R;
+import com.byt_eye.tcadmin.modals.Upload;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class AddCustomNews extends AppCompatActivity {
+public class PostNewsActvity extends AppCompatActivity {
 
     private DatabaseReference mDatabase;
     private EditText title;
@@ -40,7 +42,7 @@ public class AddCustomNews extends AppCompatActivity {
             public void onClick(View view) {
 
                 setDataIntoFirebase(title.getText().toString(), url.getText().toString(), img.getText().toString(),"");
-                Toast.makeText(AddCustomNews.this, "News Posted", Toast.LENGTH_SHORT).show();
+                Toast.makeText(PostNewsActvity.this, "News Posted", Toast.LENGTH_SHORT).show();
 
             }
         });

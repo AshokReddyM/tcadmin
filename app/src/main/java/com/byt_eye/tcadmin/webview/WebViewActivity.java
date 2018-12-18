@@ -1,4 +1,4 @@
-package com.byt_eye.tcadmin;
+package com.byt_eye.tcadmin.webview;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -18,8 +18,10 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.byt_eye.tcadmin.R;
 
-public class PostWebView extends AppCompatActivity {
+
+public class WebViewActivity extends AppCompatActivity {
 
     TextView title;
     WebView webview;
@@ -32,10 +34,6 @@ public class PostWebView extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_web_view);
-
-        ActionBar actionBar=getSupportActionBar();
-        actionBar.setElevation(0);
-        actionBar.hide();
 
         Intent intent = getIntent();
         final String mPostLink = intent.getStringExtra("post_link");

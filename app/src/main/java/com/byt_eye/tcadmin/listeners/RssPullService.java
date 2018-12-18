@@ -3,15 +3,17 @@ package com.byt_eye.tcadmin.listeners;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.IBinder;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.JobIntentService;
+import android.util.Log;
+import android.widget.Toast;
 
-import com.byt_eye.tcadmin.DBHandler;
-import com.byt_eye.tcadmin.HandleXML;
+import com.byt_eye.tcadmin.crowl.HandleXML;
 import com.byt_eye.tcadmin.R;
-import com.byt_eye.tcadmin.RssFeedModel;
-import com.byt_eye.tcadmin.Upload;
+import com.byt_eye.tcadmin.data.DbOpenHelper;
+import com.byt_eye.tcadmin.modals.RssFeedModel;
+import com.byt_eye.tcadmin.modals.Upload;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -30,19 +32,18 @@ import java.util.List;
 public class RssPullService extends JobIntentService {
 
     Context context;
-    DBHandler dbHelper;
+    DbOpenHelper dbHelper;
     private SharedPreferences sharedpreferences;
     private SharedPreferences.Editor editor;
-    private String mFeedTitle;
-    private String mFeedLink;
-    private String mFeedDescription;
-    private String mFeedImageUrl;
-    private String mFeedUrl;
-    private int TAB_TAG;
-    private String mReadStatus;
-    private String mPublishedTime;
+    public String mFeedTitle;
+    public String mFeedLink;
+    public String mFeedDescription;
+    public String mFeedImageUrl;
+    public String mFeedUrl;
+    public String mReadStatus;
+    public String mPublishedTime;
 
-    static final int SERVICE_JOB_ID = 50;
+    static final int SERVICE_JOB_ID = 1050;
 
     URL url;
     InputStream inputStream;
@@ -50,20 +51,23 @@ public class RssPullService extends JobIntentService {
     private List<String> totalWebsitesList;
     private List<String> encodedWebsitesList;
     private DatabaseReference mDatabase;
+    final String TAG = "MyJobIntenetService";
 
 
     @Override
     protected void onHandleWork(@NonNull Intent intent) {
+        Log.d("Rss Service", " : Started");
         new Thread(new Runnable() {
             @Override
             public void run() {
 
+                Log.d("Rss Service", " : Started");
 
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
-                mDatabase = database.getReference().child("tollywoodnews");
+                mDatabase = database.getReference().child("home").child("News").child("Languages").child("Telugu").child("Cat1");
 
                 context = getApplicationContext();
-                dbHelper = new DBHandler(context);
+                dbHelper = new DbOpenHelper(context);
 
                 String[] websitesFeedsArray = getResources().getStringArray(R.array.telugu_websites_feed_links);
                 String[] encodedWebsites = getResources().getStringArray(R.array.encoded_websites);
@@ -148,10 +152,6 @@ public class RssPullService extends JobIntentService {
 
     }
 
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
-    }
 
     private void setDataIntoFirebase(String title, String link, String imageUrl, String description) {
         //creating the upload object to store uploaded image details
@@ -169,15 +169,28 @@ public class RssPullService extends JobIntentService {
     }
 
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        stopSelf();
+    public static void enqueueWork(Context context, Intent intent) {
+        enqueueWork(context, RssPullService.class, SERVICE_JOB_ID, intent);
     }
 
 
-    public static void enqueueWork(Context context, Intent intent) {
-        enqueueWork(context, RssPullService.class, SERVICE_JOB_ID, intent);
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.wtf(TAG, "All work complete");
+        toast("All work complete");
+    }
+
+    final Handler mHandler = new Handler();
+
+    // Helper for showing tests
+    void toast(final CharSequence text) {
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(RssPullService.this, text, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 }

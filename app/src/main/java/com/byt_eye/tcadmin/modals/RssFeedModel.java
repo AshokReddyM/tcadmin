@@ -1,4 +1,4 @@
-package com.byt_eye.tcadmin;
+package com.byt_eye.tcadmin.modals;
 
 
 public class RssFeedModel {

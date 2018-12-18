@@ -1,6 +1,8 @@
-package com.byt_eye.tcadmin;
+package com.byt_eye.tcadmin.crowl;
 
 import android.util.Xml;
+
+import com.byt_eye.tcadmin.modals.RssFeedModel;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;

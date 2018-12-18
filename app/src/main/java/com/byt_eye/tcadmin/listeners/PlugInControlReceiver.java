@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.Toast;
 
-import com.byt_eye.tcadmin.utils.DailyService;
+import com.byt_eye.tcadmin.services.DailyService;
 
 public class PlugInControlReceiver extends BroadcastReceiver {
     @Override

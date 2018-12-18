@@ -1,4 +1,4 @@
-package com.byt_eye.tcadmin;
+package com.byt_eye.tcadmin.new_list.adapter;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -6,15 +6,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import com.byt_eye.tcadmin.R;
+import com.byt_eye.tcadmin.data.DbOpenHelper;
+import com.byt_eye.tcadmin.modals.RssFeedModel;
+import com.byt_eye.tcadmin.webview.WebViewActivity;
+
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 
 
 public class RssFeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -22,14 +22,14 @@ public class RssFeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private static final int DEFAULT_VIEW_TYPE = 1;
     TextView title;
     TextView postDate;
-    DBHandler dbHelper;
+    DbOpenHelper dbHelper;
     private ArrayList<RssFeedModel> mRssFeedModels;
     private Activity mActivity;
 
     public RssFeedListAdapter(ArrayList<RssFeedModel> rssFeedModels, Activity activity) {
         mRssFeedModels = rssFeedModels;
         this.mActivity = activity;
-        dbHelper = new DBHandler(activity);
+        dbHelper = new DbOpenHelper(activity);
     }
 
 
@@ -67,7 +67,7 @@ public class RssFeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(mActivity, PostWebView.class);
+                Intent intent = new Intent(mActivity, WebViewActivity.class);
                 intent.putExtra("post_link", feedModel.getLink());
                 intent.putExtra("post_title", feedModel.getTitle());
                 intent.putExtra("post_desc", feedModel.getDescription());
@@ -76,7 +76,6 @@ public class RssFeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 dbHelper.updateRow(feedModel.ID, "0");
                 feedModel.setReadStatus("1");
                 mActivity.startActivity(intent);
-                mActivity.overridePendingTransition(R.anim.enter, R.anim.exit);
 
             }
         });

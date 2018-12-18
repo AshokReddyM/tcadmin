@@ -4,7 +4,7 @@
     android:id="@+id/activity_add_custom_news"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.byt_eye.tcadmin.AddCustomNews">
+    tools:context="com.byt_eye.tcadmin.postNews.PostNewsActvity">
 
     <EditText
         android:id="@+id/custom_title"
