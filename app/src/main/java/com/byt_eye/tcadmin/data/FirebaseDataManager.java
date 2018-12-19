@@ -3,9 +3,8 @@ package com.byt_eye.tcadmin.data;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.byt_eye.tcadmin.R;
-import com.byt_eye.tcadmin.modals.MainApp;
 import com.byt_eye.tcadmin.modals.Website;
+import com.byt_eye.tcadmin.modals.Websites;
 import com.byt_eye.tcadmin.websites.adapter.WebsitesListAdapter;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -13,6 +12,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Date;
 import java.util.List;
 
 public class FirebaseDataManager {
@@ -20,34 +20,40 @@ public class FirebaseDataManager {
     private static FirebaseDatabase database = FirebaseDatabase.getInstance();
     private static DatabaseReference mDatabaseRef;
 
-/*    public static void pushCatWebsites() {
-        mDatabaseRef = database.getReference().child("home").child("News").child("Languages").child("Telugu").child("Websites");
+    /*    public static void pushWebsites() {
+            mDatabaseRef = database.getReference().child("home").child("News").child("Languages").child("Telugu");
+            //creating the upload object to store uploaded image details
+            String uploadId = mDatabaseRef.push().getKey();
+
+            mDatabaseRef.child("Websites").setValue(new MainApp("టాప్", "ముఖ్యాంశాలు", "ఆంధ్రప్రదేశ్", "తెలంగాణ", "జాతీయం", "రాజకీయం", "వినోదం", "క్రీడలు", "వ్యాపారం", "టెక్నాలజీ", "విద్య", "రాశి ఫలాలు"));
+
+
+        }*/
+
+    public static void pushNewWebsites(String language, String category) {
+        mDatabaseRef = database.getReference().child("home").child("News").child("Languages").child(language).child("Websites").child(category);
         //creating the upload object to store uploaded image details
         String uploadId = mDatabaseRef.push().getKey();
-
-        mDatabaseRef.child("NewsByCategory").setValue(new MainApp("టాప్", "ముఖ్యాంశాలు", "ఆంధ్రప్రదేశ్", "తెలంగాణ", "జాతీయం", "రాజకీయం", "వినోదం", "క్రీడలు", "వ్యాపారం", "టెక్నాలజీ", "విద్య", "రాశి ఫలాలు"));
-
+        mDatabaseRef.child(uploadId).setValue(new Websites("GreatAndhra", "https://telugu.greatandhra.com/movies.php", String.valueOf(new Date().getTime()), ""));
 
     }
-    */
+
+    public static void removeNewWebsites(String language, String category, String id) {
+        mDatabaseRef = database.getReference().child("home").child("News").child("Languages").child(language).child("Websites").child(category);
+        //creating the upload object to store uploaded image details
+        String uploadId = mDatabaseRef.push().getKey();
+        mDatabaseRef.child(uploadId).removeValue();
+    }
+
+
     public static void pushCatWebsites() {
         mDatabaseRef = database.getReference().child("home").child("News").child("Languages").child("Telugu");
         //creating the upload object to store uploaded image details
         String uploadId = mDatabaseRef.push().getKey();
-/*
-
-        String[] mTestArray = getResources().getStringArray(R.array.encoded_websites);
-        for (int i = 0; i < mTestArray.length; i++) {
-            FirebaseDataManager.pushWebsites(new Website(mTestArray[i], null, null, null, null, 1));
-        }
-*/
-
-/*
-        mDatabaseRef.child("Websites").setValue(new MainApp2();
-*/
-
-
     }
+
+
+
 
  /*   public static void pushWebsites() {
         mDatabaseRef = database.getReference().child("home").child("News").child("Languages");

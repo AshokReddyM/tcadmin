@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.util.Log;
 
 import com.byt_eye.tcadmin.data.DataManager;
+import com.byt_eye.tcadmin.modals.CrawlWebsite;
 import com.byt_eye.tcadmin.modals.Website;
 import com.google.firebase.database.DatabaseReference;
 
@@ -75,6 +76,37 @@ public class WebsitesActivityPresenter {
 
                     }
                 });
+
     }
+
+
+
+    public void crawlWebsite() {
+        mDataManager.crawlWebsite().observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Observer<List<CrawlWebsite>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(List<CrawlWebsite> crawlWebsites) {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
+
 }
 

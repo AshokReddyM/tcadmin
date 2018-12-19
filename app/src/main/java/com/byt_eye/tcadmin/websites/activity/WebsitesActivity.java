@@ -27,18 +27,12 @@ public class WebsitesActivity extends AppCompatActivity implements WebsitesActiv
     private ArrayList<Website> websitesList;
     private WebsitesListAdapter adapter;
     private ProgressBar loader;
+    private WebsitesActivityPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_websites);
-
-//
-//        String[] mTestArray = getResources().getStringArray(R.array.encoded_websites);
-//
-//        for (int i = 0; i < mTestArray.length; i++) {
-//            FirebaseDataManager.pushWebsites(new Website(mTestArray[i], null, null, null, null, 1));
-//        }
 
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_websites_list);
@@ -49,11 +43,13 @@ public class WebsitesActivity extends AppCompatActivity implements WebsitesActiv
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
+        presenter=new WebsitesActivityPresenter();
+        presenter.crawlWebsite();
 
         /*showSelectReceiversDialog();*/
 
 
-        new WebsitesActivityPresenter().getMainModules(WebsitesActivity.this, database.getReference().child("home"));
+        /*new WebsitesActivityPresenter().getMainModules(WebsitesActivity.this, database.getReference().child("home"));*/
 
 
     }
@@ -139,6 +135,14 @@ public class WebsitesActivity extends AppCompatActivity implements WebsitesActiv
         AlertDialog dialog = builder.create();
         dialog.show();
     }
+
+ //
+//        String[] mTestArray = getResources().getStringArray(R.array.encoded_websites);
+//
+//        for (int i = 0; i < mTestArray.length; i++) {
+//            FirebaseDataManager.pushWebsites(new Website(mTestArray[i], null, null, null, null, 1));
+//        }
+
 
 
 }

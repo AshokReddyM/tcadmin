@@ -1,7 +1,7 @@
 package com.byt_eye.tcadmin.modals;
 
 
-public class Upload {
+public class Post {
 
     private String unique_key;
     private String title;
@@ -28,7 +28,7 @@ public class Upload {
     }
 
 
-    public Upload(String title, String imageUrl, String link, String totalViews, String postTime, String unique_key,String description) {
+    public Post(String title, String imageUrl, String link, String totalViews, String postTime, String unique_key, String description) {
         this.title = title;
         this.imageUrl = imageUrl;
         this.link = link;

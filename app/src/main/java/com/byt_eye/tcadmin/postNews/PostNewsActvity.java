@@ -8,7 +8,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.byt_eye.tcadmin.R;
-import com.byt_eye.tcadmin.modals.Upload;
+import com.byt_eye.tcadmin.modals.Post;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -53,10 +53,10 @@ public class PostNewsActvity extends AppCompatActivity {
 
 
     private void setDataIntoFirebase(String title, String link, String imageUrl,String description) {
-        //creating the upload object to store uploaded image details
+        //creating the post object to store uploaded image details
         String uploadId = mDatabase.push().getKey();
-        Upload upload = new Upload(title, imageUrl, link, "0", settingCurrentTime(), uploadId,description);
-        mDatabase.child(uploadId).setValue(upload);
+        Post post = new Post(title, imageUrl, link, "0", settingCurrentTime(), uploadId,description);
+        mDatabase.child(uploadId).setValue(post);
 
     }
 

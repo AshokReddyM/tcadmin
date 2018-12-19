@@ -1,11 +1,18 @@
 package com.byt_eye.tcadmin.data;
 
+import com.byt_eye.tcadmin.modals.CrawlWebsite;
 import com.byt_eye.tcadmin.modals.Website;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -94,6 +101,46 @@ public class DataManager {
 
             }
         });
+    }
+
+
+    public Observable<List<CrawlWebsite>> crawlWebsite() {
+        return Observable.create(new ObservableOnSubscribe<List<CrawlWebsite>>() {
+            @Override
+            public void subscribe(ObservableEmitter<List<CrawlWebsite>> e) throws Exception {
+                crawlWebsite("https://telugu.greatandhra.com/movies.php");
+                List<CrawlWebsite> crawlWebsites = new ArrayList<>();
+                e.onNext(crawlWebsites);
+            }
+        });
+    }
+
+
+    private void crawlWebsite(String website) {
+        Document doc;
+        try {
+            doc = Jsoup.connect(website).get();
+            // get title of the page
+            String title = doc.title();
+            System.out.println("Title: " + title);
+
+            // get all links
+            Elements links = doc.select("a[href]");
+            for (Element link : links) {
+
+                if(link.attr("href").contains("https://telugu.greatandhra.com/movies/movie-news")){
+
+                    // get the value from href attribute
+                    System.out.println("\nLink : " + link.attr("href"));
+                    System.out.println("Text : " + link.text());
+                }
+
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
 

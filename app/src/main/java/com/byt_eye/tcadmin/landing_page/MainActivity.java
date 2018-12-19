@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.byt_eye.tcadmin.R;
+import com.byt_eye.tcadmin.crowl.JsoupCrowler;
+import com.byt_eye.tcadmin.data.FirebaseDataManager;
 import com.byt_eye.tcadmin.new_list.NewsListActivity;
 import com.byt_eye.tcadmin.websites.activity.WebsitesActivity;
 
@@ -25,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
         TextView websites = findViewById(R.id.tv_websites);
         TextView news = findViewById(R.id.tv_news);
         TextView navigate = findViewById(R.id.navigate);
+
 
         websites.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,9 +61,9 @@ public class MainActivity extends AppCompatActivity {
             FirebaseDataManager.pushWebsites(new Website(mTestArray[i], null, null, null, null, 1));
         }*/
 
-/*
-        FirebaseDataManager.pushCatWebsites();
-*/
+
+        FirebaseDataManager.pushWebsites();
+
 
         SharedPreferences sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedpreferences.edit();
