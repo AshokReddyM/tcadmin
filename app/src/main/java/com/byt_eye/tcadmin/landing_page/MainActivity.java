@@ -62,9 +62,6 @@ public class MainActivity extends AppCompatActivity {
         }*/
 
 
-        FirebaseDataManager.pushWebsites();
-
-
         SharedPreferences sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedpreferences.edit();
         editor.clear();

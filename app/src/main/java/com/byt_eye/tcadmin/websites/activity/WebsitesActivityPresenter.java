@@ -48,6 +48,38 @@ public class WebsitesActivityPresenter {
                 });
     }
 
+
+    public void getCategoriesOfLanguage(final Activity activity, final String language, DatabaseReference databaseReference) {
+        mDataManager.getCategoriesOfLanguage(databaseReference)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Observer<List<String>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(List<String> categoriesList) {
+                        Log.d("modules", categoriesList.get(0));
+                        ((WebsitesActivityMvp) activity).onGettingLangCategoriesList(language,categoriesList);
+                    }
+
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                        ((WebsitesActivityMvp) activity).onError(e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+
+    }
+
     public void getMainModules(final Activity activity, DatabaseReference databaseReference) {
         mDataManager.getModules(databaseReference)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -78,7 +110,6 @@ public class WebsitesActivityPresenter {
                 });
 
     }
-
 
 
     public void crawlWebsite() {

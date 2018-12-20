@@ -29,7 +29,6 @@ public class DataManager {
                 database.orderByKey().limitToLast(600).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-
                         try {
                             ArrayList<Website> dataModalsList = new ArrayList<>();
 
@@ -128,7 +127,7 @@ public class DataManager {
             Elements links = doc.select("a[href]");
             for (Element link : links) {
 
-                if(link.attr("href").contains("https://telugu.greatandhra.com/movies/movie-news")){
+                if (link.attr("href").contains("https://telugu.greatandhra.com/movies/movie-news")) {
 
                     // get the value from href attribute
                     System.out.println("\nLink : " + link.attr("href"));
@@ -144,4 +143,43 @@ public class DataManager {
     }
 
 
+    public Observable<List<String>> getCategoriesOfLanguage(final DatabaseReference database) {
+
+        return Observable.create(new ObservableOnSubscribe<List<String>>() {
+            @Override
+            public void subscribe(final ObservableEmitter<List<String>> e) throws Exception {
+                database.orderByKey().limitToLast(600).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        try {
+                            ArrayList<String> categoriesList = new ArrayList<>();
+
+                            for (DataSnapshot noteDataSnapshot : dataSnapshot.getChildren()) {
+                                if (dataSnapshot.hasChildren()) {
+                                    String dataModal = noteDataSnapshot.getKey();
+                                    categoriesList.add(dataModal);
+                                } else {
+                                    DataSnapshot firstChild = dataSnapshot.getChildren().iterator().next();
+                                    firstChild.getRef().removeValue();
+                                }
+                            }
+                            e.onNext(categoriesList);
+                        } catch (Exception ex) {
+                            e.onError(ex);
+                            ex.printStackTrace();
+                        } finally {
+                            e.onComplete();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+
+                });
+            }
+        });
+    }
 }

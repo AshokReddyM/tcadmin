@@ -46,25 +46,22 @@ public class FirebaseDataManager {
     }
 
 
+    public static DatabaseReference getWebsitesCategoriesRef(String language) {
+        return database.getReference().child("home").child("News").child("Languages").child(language).child("Websites");
+    }
+
+
+    public static DatabaseReference getWebsitesRef(String language, String category) {
+        return database.getReference().child("home").child("News").child("Languages").child(language).child("Websites").child(category);
+    }
+
+
     public static void pushCatWebsites() {
         mDatabaseRef = database.getReference().child("home").child("News").child("Languages").child("Telugu");
         //creating the upload object to store uploaded image details
         String uploadId = mDatabaseRef.push().getKey();
     }
 
-
-
-
- /*   public static void pushWebsites() {
-        mDatabaseRef = database.getReference().child("home").child("News").child("Languages");
-        //creating the upload object to store uploaded image details
-        String uploadId = mDatabaseRef.push().getKey();
-        mDatabaseRef.child("Telugu").setValue(new MainApp2("hindi"));
-        mDatabaseRef.child("Tamil").setValue(new MainApp2("hindi"));
-        mDatabaseRef.child("Kannada").setValue(new MainApp2("hindi"));
-        mDatabaseRef.child("Marathi").setValue(new MainApp2("hindi"));
-    }
-*/
 
     public static void getWebsites(final WebsitesListAdapter adapter, final List<Website> websitesList) {
         mDatabaseRef = database.getReference().child("websites");

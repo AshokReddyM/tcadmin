@@ -11,6 +11,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.byt_eye.tcadmin.R;
+import com.byt_eye.tcadmin.data.FirebaseDataManager;
 import com.byt_eye.tcadmin.modals.Website;
 import com.byt_eye.tcadmin.websites.adapter.WebsitesListAdapter;
 import com.google.firebase.database.DatabaseReference;
@@ -43,10 +44,10 @@ public class WebsitesActivity extends AppCompatActivity implements WebsitesActiv
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
-        presenter=new WebsitesActivityPresenter();
+        presenter = new WebsitesActivityPresenter();
         presenter.crawlWebsite();
 
-        /*showSelectReceiversDialog();*/
+        showSelectReceiversDialog();
 
 
         /*new WebsitesActivityPresenter().getMainModules(WebsitesActivity.this, database.getReference().child("home"));*/
@@ -74,10 +75,40 @@ public class WebsitesActivity extends AppCompatActivity implements WebsitesActiv
 
     }
 
+    @Override
+    public void onGettingLangCategoriesList(final String language, final List<String> categoriesList) {
+        final String[] categories = categoriesList.toArray(new String[0]);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Select Category")
+                .setSingleChoiceItems(categories, -1, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                })
+                .setCancelable(true);
+
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                int selectedPosition = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
+                loader.setVisibility(View.VISIBLE);
+
+                new WebsitesActivityPresenter().getWebsites(WebsitesActivity.this, FirebaseDataManager.getWebsitesRef(language, categories[selectedPosition]));
+
+
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+
     protected void showSelectReceiversDialog() {
 
 
-        String[] languages = new String[]{"English", "Hindi", "Telugu", "Tamil", "Kannada", "Marathi"};
+        final String[] languages = new String[]{"English", "Hindi", "Telugu", "Tamil", "Kannada", "Marathi"};
 
 
         DialogInterface.OnMultiChoiceClickListener receiversDialogListener = new DialogInterface.OnMultiChoiceClickListener() {
@@ -102,32 +133,8 @@ public class WebsitesActivity extends AppCompatActivity implements WebsitesActiv
                 int selectedPosition = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
                 loader.setVisibility(View.VISIBLE);
 
-                switch (selectedPosition) {
-                    case 0:
-                        new WebsitesActivityPresenter().getWebsites(WebsitesActivity.this, database.getReference().child("english_websites"));
+                new WebsitesActivityPresenter().getCategoriesOfLanguage(WebsitesActivity.this, languages[selectedPosition], FirebaseDataManager.getWebsitesCategoriesRef(languages[selectedPosition]));
 
-                        break;
-                    case 1:
-                        new WebsitesActivityPresenter().getWebsites(WebsitesActivity.this, database.getReference().child("hindi_websites"));
-
-                        break;
-                    case 2:
-                        new WebsitesActivityPresenter().getWebsites(WebsitesActivity.this, database.getReference().child("websites"));
-
-                        break;
-                    case 3:
-                        new WebsitesActivityPresenter().getWebsites(WebsitesActivity.this, database.getReference().child("tamil_websites"));
-
-                        break;
-                    case 4:
-                        new WebsitesActivityPresenter().getWebsites(WebsitesActivity.this, database.getReference().child("kannada_websites"));
-
-                        break;
-                    case 5:
-                        new WebsitesActivityPresenter().getWebsites(WebsitesActivity.this, database.getReference().child("marathi_websites"));
-
-                        break;
-                }
 
             }
         });
@@ -136,13 +143,12 @@ public class WebsitesActivity extends AppCompatActivity implements WebsitesActiv
         dialog.show();
     }
 
- //
+    //
 //        String[] mTestArray = getResources().getStringArray(R.array.encoded_websites);
 //
 //        for (int i = 0; i < mTestArray.length; i++) {
 //            FirebaseDataManager.pushWebsites(new Website(mTestArray[i], null, null, null, null, 1));
 //        }
-
 
 
 }
