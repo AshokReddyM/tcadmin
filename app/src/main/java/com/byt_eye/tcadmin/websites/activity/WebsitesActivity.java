@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.byt_eye.tcadmin.R;
 import com.byt_eye.tcadmin.data.FirebaseDataManager;
-import com.byt_eye.tcadmin.modals.Website;
+import com.byt_eye.tcadmin.modals.WebsitesResponse;
 import com.byt_eye.tcadmin.websites.adapter.WebsitesListAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -23,9 +23,12 @@ import java.util.List;
 public class WebsitesActivity extends AppCompatActivity implements WebsitesActivityMvp {
 
     private DatabaseReference mDatabase;
+    String category;
+    String language;
+    String webId;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     WebsitesActivityMvp mvpView;
-    private ArrayList<Website> websitesList;
+    private ArrayList<WebsitesResponse> websitesList;
     private WebsitesListAdapter adapter;
     private ProgressBar loader;
     private WebsitesActivityPresenter presenter;
@@ -57,7 +60,7 @@ public class WebsitesActivity extends AppCompatActivity implements WebsitesActiv
 
 
     @Override
-    public void onGettingDetails(List<Website> websites) {
+    public void onGettingDetails(List<WebsitesResponse> websites) {
         websitesList.addAll(websites);
         adapter.notifyDataSetChanged();
         loader.setVisibility(View.GONE);
@@ -74,6 +77,14 @@ public class WebsitesActivity extends AppCompatActivity implements WebsitesActiv
     public void onGettingModulesList(List<String> modulesList) {
 
     }
+
+    @Override
+    public void onGettingWebsiteDetails(List<WebsitesResponse> websites) {
+        websitesList.addAll(websites);
+        adapter.notifyDataSetChanged();
+        loader.setVisibility(View.GONE);
+    }
+
 
     @Override
     public void onGettingLangCategoriesList(final String language, final List<String> categoriesList) {
@@ -94,6 +105,7 @@ public class WebsitesActivity extends AppCompatActivity implements WebsitesActiv
                 int selectedPosition = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
                 loader.setVisibility(View.VISIBLE);
 
+                category = categories[selectedPosition];
                 new WebsitesActivityPresenter().getWebsites(WebsitesActivity.this, FirebaseDataManager.getWebsitesRef(language, categories[selectedPosition]));
 
 
@@ -107,10 +119,7 @@ public class WebsitesActivity extends AppCompatActivity implements WebsitesActiv
 
     protected void showSelectReceiversDialog() {
 
-
         final String[] languages = new String[]{"English", "Hindi", "Telugu", "Tamil", "Kannada", "Marathi"};
-
-
         DialogInterface.OnMultiChoiceClickListener receiversDialogListener = new DialogInterface.OnMultiChoiceClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which, boolean isChecked) {
@@ -132,6 +141,7 @@ public class WebsitesActivity extends AppCompatActivity implements WebsitesActiv
             public void onClick(DialogInterface dialog, int which) {
                 int selectedPosition = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
                 loader.setVisibility(View.VISIBLE);
+                language = languages[selectedPosition];
 
                 new WebsitesActivityPresenter().getCategoriesOfLanguage(WebsitesActivity.this, languages[selectedPosition], FirebaseDataManager.getWebsitesCategoriesRef(languages[selectedPosition]));
 

@@ -38,6 +38,14 @@ public class FirebaseDataManager {
 
     }
 
+    public static void updateWebsite(String language, String category, String id, String websiteName, String websiteLink, String websiteFilter) {
+        mDatabaseRef = database.getReference().child("home").child("News").child("Languages").child(language).child("Websites").child(category);
+        //creating the upload object to store uploaded image details
+        mDatabaseRef.child(id).setValue(new Websites(websiteName, websiteLink, String.valueOf(new Date().getTime()), websiteFilter));
+
+    }
+
+
     public static void removeNewWebsites(String language, String category, String id) {
         mDatabaseRef = database.getReference().child("home").child("News").child("Languages").child(language).child("Websites").child(category);
         //creating the upload object to store uploaded image details

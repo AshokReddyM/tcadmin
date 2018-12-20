@@ -6,6 +6,7 @@ import android.util.Log;
 import com.byt_eye.tcadmin.data.DataManager;
 import com.byt_eye.tcadmin.modals.CrawlWebsite;
 import com.byt_eye.tcadmin.modals.Website;
+import com.byt_eye.tcadmin.modals.WebsitesResponse;
 import com.google.firebase.database.DatabaseReference;
 
 import java.util.List;
@@ -23,16 +24,16 @@ public class WebsitesActivityPresenter {
         mDataManager.getWebsites(database)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(new Observer<List<Website>>() {
+                .subscribe(new Observer<List<WebsitesResponse>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
 
                     }
 
                     @Override
-                    public void onNext(List<Website> websites) {
-                        Log.d("websites", websites.get(0).getWebsiteName());
-                        ((WebsitesActivityMvp) activity).onGettingDetails(websites);
+                    public void onNext(List<WebsitesResponse> websites) {
+                        Log.d("websites", websites.get(0).getWebsite_name());
+                        ((WebsitesActivityMvp) activity).onGettingWebsiteDetails(websites);
                     }
 
                     @Override

@@ -1,7 +1,7 @@
 package com.byt_eye.tcadmin.data;
 
 import com.byt_eye.tcadmin.modals.CrawlWebsite;
-import com.byt_eye.tcadmin.modals.Website;
+import com.byt_eye.tcadmin.modals.WebsitesResponse;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -21,31 +21,36 @@ import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 
 public class DataManager {
-    public Observable<List<Website>> getWebsites(final DatabaseReference database) {
+    public Observable<List<WebsitesResponse>> getWebsites(final DatabaseReference database) {
 
-        return Observable.create(new ObservableOnSubscribe<List<Website>>() {
+        return Observable.create(new ObservableOnSubscribe<List<WebsitesResponse>>() {
             @Override
-            public void subscribe(final ObservableEmitter<List<Website>> e) throws Exception {
+            public void subscribe(final ObservableEmitter<List<WebsitesResponse>> e) throws Exception {
                 database.orderByKey().limitToLast(600).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         try {
-                            ArrayList<Website> dataModalsList = new ArrayList<>();
+                            ArrayList<WebsitesResponse> websitesResponses = new ArrayList<>();
 
                             for (DataSnapshot noteDataSnapshot : dataSnapshot.getChildren()) {
                                 if (dataSnapshot.hasChildren()) {
-                                    Website dataModal = noteDataSnapshot.getValue(Website.class);
-                                    dataModalsList.add(dataModal);
+                                    WebsitesResponse dataModal = noteDataSnapshot.getValue(WebsitesResponse.class);
+                                    websitesResponses.add(dataModal);
                                 } else {
                                     DataSnapshot firstChild = dataSnapshot.getChildren().iterator().next();
                                     firstChild.getRef().removeValue();
                                 }
                             }
-                            e.onNext(dataModalsList);
-                        } catch (Exception ex) {
+                            e.onNext(websitesResponses);
+                        } catch (
+                                Exception ex)
+
+                        {
                             e.onError(ex);
                             ex.printStackTrace();
-                        } finally {
+                        } finally
+
+                        {
                             e.onComplete();
                         }
                     }

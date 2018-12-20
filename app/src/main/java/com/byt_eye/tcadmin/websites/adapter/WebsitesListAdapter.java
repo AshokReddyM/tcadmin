@@ -3,6 +3,7 @@ package com.byt_eye.tcadmin.websites.adapter;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,16 +12,17 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.byt_eye.tcadmin.R;
-import com.byt_eye.tcadmin.modals.Website;
+import com.byt_eye.tcadmin.modals.WebsitesResponse;
+import com.byt_eye.tcadmin.websites.activity.website_edit.WebsiteEditActivity;
 
 import java.util.List;
 
 public class WebsitesListAdapter extends RecyclerView.Adapter<WebsitesListAdapter.ViewHolder> {
-    private List<Website> websites;
+    private List<WebsitesResponse> websites;
     Context context;
 
     // RecyclerView recyclerView;
-    public WebsitesListAdapter(List<Website> websites) {
+    public WebsitesListAdapter(List<WebsitesResponse> websites) {
         this.websites = websites;
     }
 
@@ -34,13 +36,13 @@ public class WebsitesListAdapter extends RecyclerView.Adapter<WebsitesListAdapte
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        final Website website = websites.get(position);
-        holder.websiteName.setText((position + 1) + " : " + website.getWebsiteName());
+    public void onBindViewHolder(ViewHolder holder, final int position) {
+        final WebsitesResponse website = websites.get(position);
+        holder.websiteName.setText((position + 1) + " : " + website.getWebsite_name());
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showWebsiteOptionDialog(context);
+                showWebsiteOptionDialog(context,position);
             }
         });
     }
@@ -63,7 +65,7 @@ public class WebsitesListAdapter extends RecyclerView.Adapter<WebsitesListAdapte
     }
 
 
-    public void showWebsiteOptionDialog(final Context context) {
+    public void showWebsiteOptionDialog(final Context context, final int position) {
         AlertDialog.Builder builderSingle = new AlertDialog.Builder(context);
         builderSingle.setTitle("Select Option");
 
@@ -83,17 +85,11 @@ public class WebsitesListAdapter extends RecyclerView.Adapter<WebsitesListAdapte
         builderSingle.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                String strName = arrayAdapter.getItem(which);
-                AlertDialog.Builder builderInner = new AlertDialog.Builder(context);
-                builderInner.setMessage(strName);
-                builderInner.setTitle("Your Selected Item is");
-                builderInner.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-                builderInner.show();
+                Intent intent = new Intent(context, WebsiteEditActivity.class);
+                intent.putExtra("website_name",websites.get(position).getWebsite_name());
+                intent.putExtra("website_url",websites.get(position).getWeb_page_link());
+                intent.putExtra("website_filter",websites.get(position).getFilters());
+                context.startActivity(intent);
             }
         });
         builderSingle.show();

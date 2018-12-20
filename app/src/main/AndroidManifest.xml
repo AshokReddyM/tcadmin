@@ -59,8 +59,9 @@
         </receiver>
 
         <activity android:name=".postNews.PostNewsActvity" />
-        <activity android:name=".websites.activity.WebsitesActivity"></activity>
+        <activity android:name=".websites.activity.WebsitesActivity" />
         <activity android:name=".new_list.NewsListActivity" />
+        <activity android:name=".websites.activity.website_edit.WebsiteEditActivity"></activity>
     </application>
 
 </manifest>
