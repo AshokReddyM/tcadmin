@@ -35,6 +35,7 @@ public class DataManager {
                             for (DataSnapshot noteDataSnapshot : dataSnapshot.getChildren()) {
                                 if (dataSnapshot.hasChildren()) {
                                     WebsitesResponse dataModal = noteDataSnapshot.getValue(WebsitesResponse.class);
+                                    dataModal.setWebId(noteDataSnapshot.getKey());
                                     websitesResponses.add(dataModal);
                                 } else {
                                     DataSnapshot firstChild = dataSnapshot.getChildren().iterator().next();

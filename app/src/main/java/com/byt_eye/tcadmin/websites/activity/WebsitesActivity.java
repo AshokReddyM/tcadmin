@@ -2,10 +2,13 @@ package com.byt_eye.tcadmin.websites.activity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -13,6 +16,7 @@ import android.widget.Toast;
 import com.byt_eye.tcadmin.R;
 import com.byt_eye.tcadmin.data.FirebaseDataManager;
 import com.byt_eye.tcadmin.modals.WebsitesResponse;
+import com.byt_eye.tcadmin.websites.activity.website_edit.WebsiteEditActivity;
 import com.byt_eye.tcadmin.websites.adapter.WebsitesListAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -23,8 +27,8 @@ import java.util.List;
 public class WebsitesActivity extends AppCompatActivity implements WebsitesActivityMvp {
 
     private DatabaseReference mDatabase;
-    String category;
-    String language;
+    public String category;
+    public String language;
     String webId;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     WebsitesActivityMvp mvpView;
@@ -161,4 +165,30 @@ public class WebsitesActivity extends AppCompatActivity implements WebsitesActiv
 //        }
 
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.menu_add_website:
+                Intent intent = new Intent(this, WebsiteEditActivity.class);
+                intent.putExtra("category", category);
+                intent.putExtra("language", language);
+                startActivity(intent);
+
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+
+    }
 }

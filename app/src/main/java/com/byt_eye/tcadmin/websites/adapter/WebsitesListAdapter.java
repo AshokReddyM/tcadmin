@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.byt_eye.tcadmin.R;
 import com.byt_eye.tcadmin.modals.WebsitesResponse;
+import com.byt_eye.tcadmin.websites.activity.WebsitesActivity;
 import com.byt_eye.tcadmin.websites.activity.website_edit.WebsiteEditActivity;
 
 import java.util.List;
@@ -42,7 +43,7 @@ public class WebsitesListAdapter extends RecyclerView.Adapter<WebsitesListAdapte
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showWebsiteOptionDialog(context,position);
+                showWebsiteOptionDialog(context, position);
             }
         });
     }
@@ -86,9 +87,12 @@ public class WebsitesListAdapter extends RecyclerView.Adapter<WebsitesListAdapte
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent(context, WebsiteEditActivity.class);
-                intent.putExtra("website_name",websites.get(position).getWebsite_name());
-                intent.putExtra("website_url",websites.get(position).getWeb_page_link());
-                intent.putExtra("website_filter",websites.get(position).getFilters());
+                intent.putExtra("website_name", websites.get(position).getWebsite_name());
+                intent.putExtra("website_url", websites.get(position).getWeb_page_link());
+                intent.putExtra("website_filter", websites.get(position).getFilters());
+                intent.putExtra("website_id", websites.get(position).getWebId());
+                intent.putExtra("category", ((WebsitesActivity) context).category);
+                intent.putExtra("language", ((WebsitesActivity) context).language);
                 context.startActivity(intent);
             }
         });

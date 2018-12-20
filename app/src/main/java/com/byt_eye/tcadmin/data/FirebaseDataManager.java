@@ -1,7 +1,9 @@
 package com.byt_eye.tcadmin.data;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.widget.Toast;
 
 import com.byt_eye.tcadmin.modals.Website;
 import com.byt_eye.tcadmin.modals.Websites;
@@ -38,10 +40,38 @@ public class FirebaseDataManager {
 
     }
 
-    public static void updateWebsite(String language, String category, String id, String websiteName, String websiteLink, String websiteFilter) {
+    public static void updateWebsite(final Context context, String language, String category, String id, String websiteName, String websiteLink, String websiteFilter) {
         mDatabaseRef = database.getReference().child("home").child("News").child("Languages").child(language).child("Websites").child(category);
         //creating the upload object to store uploaded image details
-        mDatabaseRef.child(id).setValue(new Websites(websiteName, websiteLink, String.valueOf(new Date().getTime()), websiteFilter));
+        mDatabaseRef.child(id).setValue(new Websites(websiteName, websiteLink, String.valueOf(new Date().getTime()), websiteFilter), new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
+                if (databaseError != null) {
+                    Toast.makeText(context, "Website details updated failed", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, "Website details updated successfully", Toast.LENGTH_SHORT).show();
+                }
+
+
+            }
+        });
+
+    }
+
+    public static void addWebsite(final Context context, String language, String category, String websiteName, String websiteLink, String websiteFilter) {
+        mDatabaseRef = database.getReference().child("home").child("News").child("Languages").child(language).child("Websites").child(category);
+        //creating the upload object to store uploaded image details
+        String uploadId = mDatabaseRef.push().getKey();
+        mDatabaseRef.child(uploadId).setValue(new Websites(websiteName, websiteLink, String.valueOf(new Date().getTime()), websiteFilter), new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
+                if (databaseError != null) {
+                    Toast.makeText(context, "Website details updated failed", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, "Website details updated successfully", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
     }
 

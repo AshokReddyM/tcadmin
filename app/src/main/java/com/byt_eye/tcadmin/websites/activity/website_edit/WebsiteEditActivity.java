@@ -19,7 +19,8 @@ public class WebsiteEditActivity extends AppCompatActivity {
         final EditText websiteName = findViewById(R.id.et_website_name);
         final EditText websiteLink = findViewById(R.id.et_website_url);
         final EditText websiteFilter = findViewById(R.id.et_website_filter);
-        Button save = findViewById(R.id.btn_save);
+        Button update = findViewById(R.id.btn_update);
+        Button add = findViewById(R.id.btn_add);
 
         String name = getIntent().getStringExtra("website_name");
         String link = getIntent().getStringExtra("website_url");
@@ -28,16 +29,27 @@ public class WebsiteEditActivity extends AppCompatActivity {
         final String language = getIntent().getStringExtra("language");
         final String category = getIntent().getStringExtra("category");
 
-        websiteName.setText(name);
-        websiteLink.setText(link);
-        websiteFilter.setText(filter);
+        if (name != null && link != null) {
+            websiteName.setText(name);
+            websiteLink.setText(link);
+            websiteFilter.setText(filter);
+        }
 
-        save.setOnClickListener(new View.OnClickListener() {
+
+        update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseDataManager.updateWebsite(language, category, id, websiteName.getText().toString(), websiteLink.getText().toString(), websiteFilter.getText().toString());
+                FirebaseDataManager.updateWebsite(WebsiteEditActivity.this, language, category, id, websiteName.getText().toString(), websiteLink.getText().toString(), websiteFilter.getText().toString());
             }
         });
+
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseDataManager.addWebsite(WebsiteEditActivity.this, language, category, websiteName.getText().toString(), websiteLink.getText().toString(), websiteFilter.getText().toString());
+            }
+        });
+
 
     }
 }
