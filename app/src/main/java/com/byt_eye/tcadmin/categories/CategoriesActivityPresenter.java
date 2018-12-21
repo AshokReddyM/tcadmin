@@ -1,13 +1,12 @@
-package com.byt_eye.tcadmin.websites.activity;
+package com.byt_eye.tcadmin.categories;
 
 import android.app.Activity;
 import android.util.Log;
 
 import com.byt_eye.tcadmin.data.DataManager;
 import com.byt_eye.tcadmin.modals.CategoryResponse;
-import com.byt_eye.tcadmin.modals.CrawlWebsite;
-import com.byt_eye.tcadmin.modals.Website;
 import com.byt_eye.tcadmin.modals.WebsitesResponse;
+import com.byt_eye.tcadmin.websites.activity.WebsitesActivityMvp;
 import com.google.firebase.database.DatabaseReference;
 
 import java.util.List;
@@ -17,7 +16,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class WebsitesActivityPresenter {
+public class CategoriesActivityPresenter {
+
 
     private DataManager mDataManager = new DataManager();
 
@@ -51,6 +51,8 @@ public class WebsitesActivityPresenter {
     }
 
 
+
+
     public void getCategoriesOfLanguage(final Activity activity, final String language, DatabaseReference databaseReference) {
         mDataManager.getCategoriesOfLanguage(databaseReference)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -63,7 +65,7 @@ public class WebsitesActivityPresenter {
 
                     @Override
                     public void onNext(List<CategoryResponse> categoriesList) {
-                        ((WebsitesActivityMvp) activity).onGettingLangCategoriesList(language,categoriesList);
+                        ((CategoriesActivityMvp) activity).onGettingLangCategoriesList(language,categoriesList);
                     }
 
 
@@ -113,32 +115,4 @@ public class WebsitesActivityPresenter {
     }
 
 
-    public void crawlWebsite() {
-        mDataManager.crawlWebsite().observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(new Observer<List<CrawlWebsite>>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onNext(List<CrawlWebsite> crawlWebsites) {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
-    }
-
-
 }
-

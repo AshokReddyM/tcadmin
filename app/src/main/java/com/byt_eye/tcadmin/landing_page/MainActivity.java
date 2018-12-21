@@ -9,8 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.byt_eye.tcadmin.R;
-import com.byt_eye.tcadmin.crowl.JsoupCrowler;
-import com.byt_eye.tcadmin.data.FirebaseDataManager;
+import com.byt_eye.tcadmin.categories.CategoriesActivity;
 import com.byt_eye.tcadmin.new_list.NewsListActivity;
 import com.byt_eye.tcadmin.websites.activity.WebsitesActivity;
 
@@ -26,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
         TextView websites = findViewById(R.id.tv_websites);
         TextView news = findViewById(R.id.tv_news);
-        TextView navigate = findViewById(R.id.navigate);
+        TextView categories = findViewById(R.id.tv_categories);
 
 
         websites.setOnClickListener(new View.OnClickListener() {
@@ -47,10 +46,10 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        news.setOnClickListener(new View.OnClickListener() {
+        categories.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, NewsListActivity.class);
+                Intent intent = new Intent(MainActivity.this, CategoriesActivity.class);
                 startActivity(intent);
             }
         });

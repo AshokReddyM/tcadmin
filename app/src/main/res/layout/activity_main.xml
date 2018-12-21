@@ -8,7 +8,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:background="#000000">
+        android:background="@color/colorPrimaryDark">
 
         <TextView
             android:layout_width="match_parent"
@@ -24,50 +24,49 @@
 
 
     <TextView
-        android:id="@+id/navigate"
+        android:id="@+id/tv_news"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="5dp"
         android:background="@color/colorWhite"
         android:drawableLeft="@drawable/ic_website"
         android:drawablePadding="20dp"
+        android:drawableTint="@color/divider"
         android:padding="15dp"
         android:text="News"
         android:textColor="@color/colorAccent"
-        android:textSize="16dp" />
+        android:textSize="16dp"
+        android:textStyle="bold" />
 
 
     <TextView
         android:id="@+id/tv_websites"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="2dp"
         android:background="@color/colorWhite"
         android:drawableLeft="@drawable/ic_website"
         android:drawablePadding="20dp"
+        android:drawableTint="@color/divider"
         android:padding="15dp"
         android:text="Websites"
         android:textColor="@color/colorAccent"
-        android:textSize="16dp" />
+        android:textSize="16dp"
+        android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/tv_news"
+        android:id="@+id/tv_categories"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="1dp"
         android:background="@color/colorWhite"
         android:drawableLeft="@drawable/ic_website"
         android:drawablePadding="20dp"
+        android:drawableTint="@color/divider"
         android:padding="15dp"
-        android:text="News"
+        android:text="Categories"
         android:textColor="@color/colorAccent"
-        android:textSize="16dp" />
+        android:textSize="16dp"
+        android:textStyle="bold" />
 
 
 </LinearLayout>

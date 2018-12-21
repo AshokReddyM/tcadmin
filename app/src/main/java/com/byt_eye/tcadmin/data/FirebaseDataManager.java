@@ -76,16 +76,71 @@ public class FirebaseDataManager {
     }
 
 
-    public static void removeNewWebsites(String language, String category, String id) {
+    public static void removeWebsite(final Context context, String language, String category, String id) {
         mDatabaseRef = database.getReference().child("home").child("News").child("Languages").child(language).child("Websites").child(category);
         //creating the upload object to store uploaded image details
-        String uploadId = mDatabaseRef.push().getKey();
-        mDatabaseRef.child(uploadId).removeValue();
+        mDatabaseRef.child(id).removeValue(new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
+                if (databaseError != null) {
+                    Toast.makeText(context, "Website details updated failed", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, "Website details updated successfully", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
 
-    public static DatabaseReference getWebsitesCategoriesRef(String language) {
-        return database.getReference().child("home").child("News").child("Languages").child(language).child("Websites");
+    public static void removeCategory(final Context context, String language, String category) {
+        mDatabaseRef = database.getReference().child("home").child("News").child("Languages").child(language).child("Websites");
+        //creating the upload object to store uploaded image details
+        mDatabaseRef.child(category).removeValue(new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
+                if (databaseError != null) {
+                    Toast.makeText(context, "Website details updated failed", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, "Website details updated successfully", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+
+    public static void addOrUpdateCategory(final Context context, String language, String category, String key) {
+        mDatabaseRef = database.getReference().child("home").child("News").child("Languages").child(language).child("Categories");;
+        //creating the upload object to store uploaded image details
+        mDatabaseRef.child(key).setValue(category, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
+                if (databaseError != null) {
+                    Toast.makeText(context, "Category details updated failed", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, "Category details updated successfully", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    public static void EditCategory(final Context context, String language, String category) {
+        mDatabaseRef = database.getReference().child("home").child("News").child("Languages").child(language);
+        //creating the upload object to store uploaded image details
+        mDatabaseRef.child("Websites").setValue(category, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
+                if (databaseError != null) {
+                    Toast.makeText(context, "Website details updated failed", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, "Website details updated successfully", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+
+    public static DatabaseReference getCategoriesRef(String language) {
+        return database.getReference().child("home").child("News").child("Languages").child(language).child("Categories");
     }
 
 

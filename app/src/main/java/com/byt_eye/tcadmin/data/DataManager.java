@@ -1,5 +1,6 @@
 package com.byt_eye.tcadmin.data;
 
+import com.byt_eye.tcadmin.modals.CategoryResponse;
 import com.byt_eye.tcadmin.modals.CrawlWebsite;
 import com.byt_eye.tcadmin.modals.WebsitesResponse;
 import com.google.firebase.database.DataSnapshot;
@@ -149,22 +150,24 @@ public class DataManager {
     }
 
 
-    public Observable<List<String>> getCategoriesOfLanguage(final DatabaseReference database) {
+    public Observable<List<CategoryResponse>> getCategoriesOfLanguage(final DatabaseReference database) {
 
-        return Observable.create(new ObservableOnSubscribe<List<String>>() {
+        return Observable.create(new ObservableOnSubscribe<List<CategoryResponse>>() {
             @Override
-            public void subscribe(final ObservableEmitter<List<String>> e) throws Exception {
-                database.orderByKey().limitToLast(600).addValueEventListener(new ValueEventListener() {
+            public void subscribe(final ObservableEmitter<List<CategoryResponse>> e) throws Exception {
+                database.orderByKey()
+                        .limitToLast(600).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
 
                         try {
-                            ArrayList<String> categoriesList = new ArrayList<>();
+                            ArrayList<CategoryResponse> categoriesList = new ArrayList<>();
 
                             for (DataSnapshot noteDataSnapshot : dataSnapshot.getChildren()) {
                                 if (dataSnapshot.hasChildren()) {
-                                    String dataModal = noteDataSnapshot.getKey();
-                                    categoriesList.add(dataModal);
+                                    String key = noteDataSnapshot.getKey();
+                                    String value = (String) noteDataSnapshot.getValue();
+                                    categoriesList.add(new CategoryResponse(value, key));
                                 } else {
                                     DataSnapshot firstChild = dataSnapshot.getChildren().iterator().next();
                                     firstChild.getRef().removeValue();

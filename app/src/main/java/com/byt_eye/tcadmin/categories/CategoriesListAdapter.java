@@ -1,10 +1,9 @@
-package com.byt_eye.tcadmin.websites.adapter;
+package com.byt_eye.tcadmin.categories;
 
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,34 +13,32 @@ import android.widget.TextView;
 
 import com.byt_eye.tcadmin.R;
 import com.byt_eye.tcadmin.data.FirebaseDataManager;
-import com.byt_eye.tcadmin.modals.WebsitesResponse;
-import com.byt_eye.tcadmin.websites.activity.WebsitesActivity;
-import com.byt_eye.tcadmin.websites.activity.website_edit.WebsiteEditActivity;
+import com.byt_eye.tcadmin.modals.CategoryResponse;
 
 import java.util.List;
 
-public class WebsitesListAdapter extends RecyclerView.Adapter<WebsitesListAdapter.ViewHolder> {
-    private List<WebsitesResponse> websites;
+public class CategoriesListAdapter extends RecyclerView.Adapter<CategoriesListAdapter.ViewHolder> {
+    private List<CategoryResponse> categories;
     Context context;
 
     // RecyclerView recyclerView;
-    public WebsitesListAdapter(List<WebsitesResponse> websites) {
-        this.websites = websites;
+    public CategoriesListAdapter(List<CategoryResponse> categories) {
+        this.categories = categories;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         context = parent.getContext();
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View listItem = layoutInflater.inflate(R.layout.webiste_list_item, parent, false);
-        ViewHolder viewHolder = new ViewHolder(listItem);
+        View listItem = layoutInflater.inflate(R.layout.categorylist_item, parent, false);
+        CategoriesListAdapter.ViewHolder viewHolder = new CategoriesListAdapter.ViewHolder(listItem);
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
-        final WebsitesResponse website = websites.get(position);
-        holder.websiteName.setText((position + 1) + " : " + website.getWebsite_name());
+    public void onBindViewHolder(CategoriesListAdapter.ViewHolder holder, final int position) {
+        holder.categoryKey.setText((position + 1) + " : " + categories.get(position).getKey());
+        holder.categoryValue.setText(categories.get(position).getName());
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -53,17 +50,19 @@ public class WebsitesListAdapter extends RecyclerView.Adapter<WebsitesListAdapte
 
     @Override
     public int getItemCount() {
-        return websites.size();
+        return categories.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView websiteName;
+        public TextView categoryKey;
+        public TextView categoryValue;
         public View view;
 
         public ViewHolder(View itemView) {
             super(itemView);
             this.view = itemView;
-            this.websiteName = (TextView) itemView.findViewById(R.id.tv_website_name);
+            this.categoryKey = (TextView) itemView.findViewById(R.id.tv_category_key);
+            this.categoryValue = (TextView) itemView.findViewById(R.id.tv_category_value);
         }
     }
 
@@ -74,7 +73,6 @@ public class WebsitesListAdapter extends RecyclerView.Adapter<WebsitesListAdapte
 
         final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1);
         arrayAdapter.add("Edit");
-        arrayAdapter.add("Open Url");
         arrayAdapter.add("Delete");
         arrayAdapter.add("Status");
 
@@ -92,25 +90,17 @@ public class WebsitesListAdapter extends RecyclerView.Adapter<WebsitesListAdapte
 
                 switch (which) {
                     case 0:
-                        Intent intent = new Intent(context, WebsiteEditActivity.class);
-                        intent.putExtra("website_name", websites.get(position).getWebsite_name());
-                        intent.putExtra("website_url", websites.get(position).getWeb_page_link());
-                        intent.putExtra("website_filter", websites.get(position).getFilters());
-                        intent.putExtra("website_id", websites.get(position).getWebId());
-                        intent.putExtra("category", ((WebsitesActivity) context).category);
-                        intent.putExtra("language", ((WebsitesActivity) context).language);
+                        Intent intent = new Intent(context, CategoriesEditActivity.class);
+                        intent.putExtra("category_name", categories.get(position).getName());
+                        intent.putExtra("category_key", categories.get(position).getKey());
+                        intent.putExtra("language", ((CategoriesActivity) context).language);
                         context.startActivity(intent);
                         break;
                     case 1:
-                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(websites.get(position).getWeb_page_link()));
-                        context.startActivity(browserIntent);
+                        FirebaseDataManager.removeCategory(context, ((CategoriesActivity) context).language, ((CategoriesActivity) context).category);
                         break;
                     case 2:
-                        FirebaseDataManager.removeWebsite(context,((WebsitesActivity) context).language, ((WebsitesActivity) context).category, websites.get(position).getWebId());
                         break;
-                    case 3:
-                        break;
-
                 }
 
 

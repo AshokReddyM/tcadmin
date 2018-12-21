@@ -61,7 +61,9 @@
         <activity android:name=".postNews.PostNewsActvity" />
         <activity android:name=".websites.activity.WebsitesActivity" />
         <activity android:name=".new_list.NewsListActivity" />
-        <activity android:name=".websites.activity.website_edit.WebsiteEditActivity"></activity>
+        <activity android:name=".websites.activity.website_edit.WebsiteEditActivity" />
+        <activity android:name=".categories.CategoriesActivity" />
+        <activity android:name=".categories.CategoriesEditActivity"></activity>
     </application>
 
 </manifest>
