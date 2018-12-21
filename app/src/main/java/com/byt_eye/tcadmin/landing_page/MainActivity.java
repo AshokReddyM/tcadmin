@@ -11,22 +11,31 @@ import android.widget.TextView;
 import com.byt_eye.tcadmin.R;
 import com.byt_eye.tcadmin.categories.CategoriesActivity;
 import com.byt_eye.tcadmin.data.FirebaseDataManager;
+import com.byt_eye.tcadmin.modals.CategoryResponse;
+import com.byt_eye.tcadmin.modals.WebsitesResponse;
 import com.byt_eye.tcadmin.new_list.NewsListActivity;
 import com.byt_eye.tcadmin.websites.activity.WebsitesActivity;
 
+import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+
+public class MainActivity extends AppCompatActivity implements MainActivityMvp {
 
     private String MyPREFERENCES = "notification";
+    MainActivityPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        presenter = new MainActivityPresenter();
         TextView websites = findViewById(R.id.tv_websites);
         TextView news = findViewById(R.id.tv_news);
         TextView categories = findViewById(R.id.tv_categories);
+
+        presenter.getCategoriesOfLanguage(MainActivity.this, "Telugu", FirebaseDataManager.getCategoriesRef("Telugu"));
+
 
 
 /*
@@ -74,6 +83,25 @@ public class MainActivity extends AppCompatActivity {
         editor.putString("key", "1");
         editor.commit();
 
+    }
+
+    @Override
+    public void onGettingLangCategoriesList(String language, List<CategoryResponse> categoriesList) {
+        for (int i = 0; i < categoriesList.size(); i++) {
+            presenter.getWebsites(this, FirebaseDataManager.getWebsitesRef(language, categoriesList.get(i).getKey()));
+        }
+    }
+
+    @Override
+    public void onError(String message) {
+
+    }
+
+    @Override
+    public void onGettingWebsiteDetails(List<WebsitesResponse> websites) {
+        for (int i = 0; i < websites.size(); i++) {
+            presenter.crawlWebsite(websites.get(i).getWeb_page_link());
+        }
     }
 }
 

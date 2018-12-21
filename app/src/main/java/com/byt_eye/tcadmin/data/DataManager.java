@@ -1,7 +1,6 @@
 package com.byt_eye.tcadmin.data;
 
 import com.byt_eye.tcadmin.modals.CategoryResponse;
-import com.byt_eye.tcadmin.modals.CrawlWebsite;
 import com.byt_eye.tcadmin.modals.WebsitesResponse;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -110,42 +109,37 @@ public class DataManager {
     }
 
 
-    public Observable<List<CrawlWebsite>> crawlWebsite() {
-        return Observable.create(new ObservableOnSubscribe<List<CrawlWebsite>>() {
+    public void crawlWebsite(final String website) {
+
+        Observable.create(new ObservableOnSubscribe<Object>() {
             @Override
-            public void subscribe(ObservableEmitter<List<CrawlWebsite>> e) throws Exception {
-                crawlWebsite("https://telugu.greatandhra.com/movies.php");
-                List<CrawlWebsite> crawlWebsites = new ArrayList<>();
-                e.onNext(crawlWebsites);
-            }
-        });
-    }
+            public void subscribe(ObservableEmitter<Object> e) throws Exception {
+                Document doc;
+                try {
+                    doc = Jsoup.connect(website).get();
+                    // get title of the page
+                    String title = doc.title();
+                    System.out.println("Title: " + title);
 
+                    // get all links
+                    Elements links = doc.select("a[href]");
+                    for (Element link : links) {
 
-    private void crawlWebsite(String website) {
-        Document doc;
-        try {
-            doc = Jsoup.connect(website).get();
-            // get title of the page
-            String title = doc.title();
-            System.out.println("Title: " + title);
+                        if (link.attr("href").contains("https://telugu.greatandhra.com/movies/movie-news")) {
 
-            // get all links
-            Elements links = doc.select("a[href]");
-            for (Element link : links) {
+                            // get the value from href attribute
+                            System.out.println("\nLink : " + link.attr("href"));
+                            System.out.println("Text : " + link.text());
+                        }
 
-                if (link.attr("href").contains("https://telugu.greatandhra.com/movies/movie-news")) {
+                    }
 
-                    // get the value from href attribute
-                    System.out.println("\nLink : " + link.attr("href"));
-                    System.out.println("Text : " + link.text());
+                } catch (IOException ex) {
+                    ex.printStackTrace();
                 }
 
             }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        });
 
     }
 

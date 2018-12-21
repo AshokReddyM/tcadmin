@@ -64,7 +64,7 @@ public class RssPullService extends JobIntentService {
                 Log.d("Rss Service", " : Started");
 
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
-                mDatabase = database.getReference().child("home").child("News").child("Languages").child("Telugu").child("Cat1");
+                mDatabase = database.getReference().child("home").child("News").child("Languages").child("Telugu").child("News");
 
                 context = getApplicationContext();
                 dbHelper = new DbOpenHelper(context);

@@ -95,6 +95,8 @@ public class FirebaseDataManager {
     }
 
 
+
+
     public static void addOrUpdateCategory(final Context context, String language, String category, String key) {
         mDatabaseRef = database.getReference().child("home").child("News").child("Languages").child(language).child("Categories");
         //creating the upload object to store uploaded image details
@@ -109,6 +111,8 @@ public class FirebaseDataManager {
             }
         });
     }
+
+
 
 
     public static DatabaseReference getCategoriesRef(String language) {

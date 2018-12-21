@@ -1,13 +1,12 @@
-package com.byt_eye.tcadmin.websites.activity;
+package com.byt_eye.tcadmin.landing_page;
 
 import android.app.Activity;
-import android.util.Log;
 
 import com.byt_eye.tcadmin.data.DataManager;
+import com.byt_eye.tcadmin.data.FirebaseDataManager;
 import com.byt_eye.tcadmin.modals.CategoryResponse;
-import com.byt_eye.tcadmin.modals.CrawlWebsite;
-import com.byt_eye.tcadmin.modals.Website;
 import com.byt_eye.tcadmin.modals.WebsitesResponse;
+import com.byt_eye.tcadmin.websites.activity.WebsitesActivityMvp;
 import com.google.firebase.database.DatabaseReference;
 
 import java.util.List;
@@ -17,9 +16,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class WebsitesActivityPresenter {
-
+public class MainActivityPresenter {
     private DataManager mDataManager = new DataManager();
+
 
     public void getWebsites(final Activity activity, DatabaseReference database) {
         mDataManager.getWebsites(database)
@@ -33,13 +32,13 @@ public class WebsitesActivityPresenter {
 
                     @Override
                     public void onNext(List<WebsitesResponse> websites) {
-                        ((WebsitesActivityMvp) activity).onGettingWebsiteDetails(websites);
+                        ((MainActivity) activity).onGettingWebsiteDetails(websites);
                     }
 
                     @Override
                     public void onError(Throwable e) {
 
-                        ((WebsitesActivityMvp) activity).onError(e.getMessage());
+                        ((MainActivity) activity).onError(e.getMessage());
                     }
 
                     @Override
@@ -48,6 +47,7 @@ public class WebsitesActivityPresenter {
                     }
                 });
     }
+
 
 
     public void getCategoriesOfLanguage(final Activity activity, final String language, DatabaseReference databaseReference) {
@@ -62,14 +62,14 @@ public class WebsitesActivityPresenter {
 
                     @Override
                     public void onNext(List<CategoryResponse> categoriesList) {
-                        ((WebsitesActivityMvp) activity).onGettingLangCategoriesList(language,categoriesList);
+                        ((MainActivityMvp) activity).onGettingLangCategoriesList(language,categoriesList);
                     }
 
 
                     @Override
                     public void onError(Throwable e) {
 
-                        ((WebsitesActivityMvp) activity).onError(e.getMessage());
+                        ((MainActivityMvp) activity).onError(e.getMessage());
                     }
 
                     @Override
@@ -80,40 +80,8 @@ public class WebsitesActivityPresenter {
 
     }
 
-    public void getMainModules(final Activity activity, DatabaseReference databaseReference) {
-        mDataManager.getModules(databaseReference)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(new Observer<List<String>>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onNext(List<String> modulesList) {
-                        Log.d("modules", modulesList.get(0));
-                        ((WebsitesActivityMvp) activity).onGettingModulesList(modulesList);
-                    }
-
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                        ((WebsitesActivityMvp) activity).onError(e.getMessage());
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
+    public void crawlWebsite(String web_page_link) {
+        mDataManager.crawlWebsite(web_page_link);
 
     }
-
-
-
-
-
 }
-

@@ -54,7 +54,6 @@ public class WebsitesActivity extends AppCompatActivity implements WebsitesActiv
         recyclerView.setAdapter(adapter);
 
         presenter = new WebsitesActivityPresenter();
-        presenter.crawlWebsite();
 
         showSelectReceiversDialog();
 
