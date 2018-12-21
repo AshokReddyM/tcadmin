@@ -31,8 +31,8 @@ public class CategoriesActivity extends AppCompatActivity implements CategoriesA
     String webId;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     WebsitesActivityMvp mvpView;
-    private ArrayList<CategoryResponse> categoriesList;
-    private CategoriesListAdapter adapter;
+    public ArrayList<CategoryResponse> categoriesList;
+    public CategoriesListAdapter adapter;
     private ProgressBar loader;
     private CategoriesActivityPresenter presenter;
 

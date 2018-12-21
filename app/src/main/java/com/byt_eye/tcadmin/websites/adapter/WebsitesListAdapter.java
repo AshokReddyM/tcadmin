@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -97,16 +98,18 @@ public class WebsitesListAdapter extends RecyclerView.Adapter<WebsitesListAdapte
                         intent.putExtra("website_url", websites.get(position).getWeb_page_link());
                         intent.putExtra("website_filter", websites.get(position).getFilters());
                         intent.putExtra("website_id", websites.get(position).getWebId());
-                        intent.putExtra("category", ((WebsitesActivity) context).category);
+                        intent.putExtra("category", ((WebsitesActivity) context).categoryList.get(which).getKey());
                         intent.putExtra("language", ((WebsitesActivity) context).language);
                         context.startActivity(intent);
                         break;
                     case 1:
-                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(websites.get(position).getWeb_page_link()));
-                        context.startActivity(browserIntent);
+                        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+                        CustomTabsIntent customTabsIntent = builder.build();
+                        customTabsIntent.launchUrl(context, Uri.parse(websites.get(position).getWeb_page_link()));
+
                         break;
                     case 2:
-                        FirebaseDataManager.removeWebsite(context,((WebsitesActivity) context).language, ((WebsitesActivity) context).category, websites.get(position).getWebId());
+                        FirebaseDataManager.removeWebsite(context,((WebsitesActivity) context).language, ((WebsitesActivity) context).category.getKey(), websites.get(position).getWebId());
                         break;
                     case 3:
                         break;

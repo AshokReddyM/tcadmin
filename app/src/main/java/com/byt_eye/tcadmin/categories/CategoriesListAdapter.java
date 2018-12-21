@@ -97,7 +97,7 @@ public class CategoriesListAdapter extends RecyclerView.Adapter<CategoriesListAd
                         context.startActivity(intent);
                         break;
                     case 1:
-                        FirebaseDataManager.removeCategory(context, ((CategoriesActivity) context).language, ((CategoriesActivity) context).category);
+                        FirebaseDataManager.removeCategory(context, ((CategoriesActivity) context),((CategoriesActivity) context).language, categories.get(position).getKey());
                         break;
                     case 2:
                         break;

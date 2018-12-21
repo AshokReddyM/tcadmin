@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.byt_eye.tcadmin.R;
 import com.byt_eye.tcadmin.categories.CategoriesActivity;
+import com.byt_eye.tcadmin.data.FirebaseDataManager;
 import com.byt_eye.tcadmin.new_list.NewsListActivity;
 import com.byt_eye.tcadmin.websites.activity.WebsitesActivity;
 
@@ -26,6 +27,11 @@ public class MainActivity extends AppCompatActivity {
         TextView websites = findViewById(R.id.tv_websites);
         TextView news = findViewById(R.id.tv_news);
         TextView categories = findViewById(R.id.tv_categories);
+
+
+/*
+        FirebaseDataManager.videosStructureInFireBase();
+*/
 
 
         websites.setOnClickListener(new View.OnClickListener() {

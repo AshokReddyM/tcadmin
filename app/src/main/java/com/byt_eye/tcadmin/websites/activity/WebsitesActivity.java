@@ -20,7 +20,6 @@ import com.byt_eye.tcadmin.modals.WebsitesResponse;
 import com.byt_eye.tcadmin.websites.activity.website_edit.WebsiteEditActivity;
 import com.byt_eye.tcadmin.websites.adapter.WebsitesListAdapter;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,21 +27,23 @@ import java.util.List;
 public class WebsitesActivity extends AppCompatActivity implements WebsitesActivityMvp {
 
     private DatabaseReference mDatabase;
-    public String category;
+    public CategoryResponse category;
     public String language;
     String webId;
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    WebsitesActivityMvp mvpView;
     private ArrayList<WebsitesResponse> websitesList;
+    public ArrayList<CategoryResponse> categoryList;
     private WebsitesListAdapter adapter;
     private ProgressBar loader;
     private WebsitesActivityPresenter presenter;
+    private ArrayList<String> stringCategories;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_websites);
 
+        stringCategories = new ArrayList<>();
+        categoryList = new ArrayList<>();
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_websites_list);
         loader = (ProgressBar) findViewById(R.id.loader);
@@ -85,9 +86,15 @@ public class WebsitesActivity extends AppCompatActivity implements WebsitesActiv
 
     @Override
     public void onGettingWebsiteDetails(List<WebsitesResponse> websites) {
-        websitesList.addAll(websites);
-        adapter.notifyDataSetChanged();
-        loader.setVisibility(View.GONE);
+        if (websites.size() != 0) {
+            websitesList.addAll(websites);
+            adapter.notifyDataSetChanged();
+            loader.setVisibility(View.GONE);
+        } else {
+            loader.setVisibility(View.GONE);
+            Toast.makeText(this, "No websites found. Please add websites in this category", Toast.LENGTH_LONG).show();
+
+        }
     }
 
 
@@ -95,27 +102,33 @@ public class WebsitesActivity extends AppCompatActivity implements WebsitesActiv
     public void onGettingLangCategoriesList(final String language, final List<CategoryResponse> categoriesList) {
 
         if (categoriesList.size() != 0) {
-            final String[] categories = categoriesList.toArray(new String[0]);
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Select Category")
-                    .setSingleChoiceItems(categories, -1, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                        }
-                    })
-                    .setCancelable(true);
+            categoryList.clear();
+            categoryList.addAll(categoriesList);
 
-            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            for (int i = 0; i < categoriesList.size(); i++) {
+                stringCategories.add(categoriesList.get(i).getName());
+            }
+
+            CharSequence[] categoryValues = stringCategories.toArray(new CharSequence[categoriesList.size()]);
+
+
+            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+            builder.setTitle("Select Category");
+            builder.setCancelable(true);
+            builder.setItems(categoryValues, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    int selectedPosition = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
                     loader.setVisibility(View.VISIBLE);
+                    new WebsitesActivityPresenter().getWebsites(WebsitesActivity.this, FirebaseDataManager.getWebsitesRef(language, categoriesList.get(which).getKey()));
+                }
+            });
 
-                    category = categories[selectedPosition];
-                    new WebsitesActivityPresenter().getWebsites(WebsitesActivity.this, FirebaseDataManager.getWebsitesRef(language, categories[selectedPosition]));
-
-
+            builder.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    builder.create().cancel();
                 }
             });
 
@@ -140,24 +153,24 @@ public class WebsitesActivity extends AppCompatActivity implements WebsitesActiv
         };
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Select language")
-                .setSingleChoiceItems(languages, -1, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                })
-                .setCancelable(true);
+        builder.setTitle("Select language");
+        builder.setCancelable(true);
 
-        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+        builder.setItems(languages, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                int selectedPosition = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
                 loader.setVisibility(View.VISIBLE);
-                language = languages[selectedPosition];
+                language = languages[which];
+                new WebsitesActivityPresenter().getCategoriesOfLanguage(WebsitesActivity.this, languages[which], FirebaseDataManager.getCategoriesRef(languages[which]));
 
-                new WebsitesActivityPresenter().getCategoriesOfLanguage(WebsitesActivity.this, languages[selectedPosition], FirebaseDataManager.getCategoriesRef(languages[selectedPosition]));
+            }
+        });
 
-
+        builder.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+                finish();
             }
         });
 
@@ -186,10 +199,7 @@ public class WebsitesActivity extends AppCompatActivity implements WebsitesActiv
         int id = item.getItemId();
         switch (id) {
             case R.id.menu_add_website:
-                Intent intent = new Intent(this, WebsiteEditActivity.class);
-                intent.putExtra("category", category);
-                intent.putExtra("language", language);
-                startActivity(intent);
+                showCategories();
 
                 return true;
 
@@ -198,5 +208,47 @@ public class WebsitesActivity extends AppCompatActivity implements WebsitesActiv
         }
 
 
+    }
+
+    public void showCategories() {
+        if (categoryList.size() != 0) {
+
+            stringCategories.clear();
+            for (int i = 0; i < categoryList.size(); i++) {
+                stringCategories.add(categoryList.get(i).getName());
+            }
+
+            CharSequence[] categoryValues = stringCategories.toArray(new CharSequence[categoryList.size()]);
+
+
+            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+            builder.setTitle("Select Category");
+            builder.setCancelable(true);
+            builder.setItems(categoryValues, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent intent = new Intent(WebsitesActivity.this, WebsiteEditActivity.class);
+                    intent.putExtra("category", categoryList.get(which).getKey());
+                    intent.putExtra("language", language);
+                    startActivity(intent);
+                }
+            });
+
+            builder.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    builder.create().cancel();
+                    finish();
+                }
+            });
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        } else {
+            loader.setVisibility(View.GONE);
+            Toast.makeText(this, "No Categories Found. Please add categories in category section", Toast.LENGTH_LONG).show();
+            finish();
+        }
     }
 }

@@ -20,7 +20,6 @@ public class WebsiteEditActivity extends AppCompatActivity {
         final EditText websiteLink = findViewById(R.id.et_website_url);
         final EditText websiteFilter = findViewById(R.id.et_website_filter);
         Button update = findViewById(R.id.btn_update);
-        Button add = findViewById(R.id.btn_add);
 
         String name = getIntent().getStringExtra("website_name");
         String link = getIntent().getStringExtra("website_url");
@@ -43,12 +42,7 @@ public class WebsiteEditActivity extends AppCompatActivity {
             }
         });
 
-        add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FirebaseDataManager.addWebsite(WebsiteEditActivity.this, language, category, websiteName.getText().toString(), websiteLink.getText().toString(), websiteFilter.getText().toString());
-            }
-        });
+
 
 
     }

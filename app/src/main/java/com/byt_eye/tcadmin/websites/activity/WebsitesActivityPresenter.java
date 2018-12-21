@@ -33,7 +33,6 @@ public class WebsitesActivityPresenter {
 
                     @Override
                     public void onNext(List<WebsitesResponse> websites) {
-                        Log.d("websites", websites.get(0).getWebsite_name());
                         ((WebsitesActivityMvp) activity).onGettingWebsiteDetails(websites);
                     }
 
