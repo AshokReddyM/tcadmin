@@ -12,7 +12,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -109,40 +108,51 @@ public class DataManager {
     }
 
 
-    public void crawlWebsite(final String website) {
+    public Observable<Boolean> crawlWebsite(final List<WebsitesResponse> websitesResponses) {
 
-        Observable.create(new ObservableOnSubscribe<Object>() {
+        return Observable.create(new ObservableOnSubscribe<Boolean>() {
             @Override
-            public void subscribe(ObservableEmitter<Object> e) throws Exception {
+            public void subscribe(ObservableEmitter<Boolean> e) throws Exception {
                 Document doc;
-                try {
-                    doc = Jsoup.connect(website).get();
-                    // get title of the page
-                    String title = doc.title();
-                    System.out.println("Title: " + title);
 
-                    // get all links
-                    Elements links = doc.select("a[href]");
-                    for (Element link : links) {
+                for (int i = 0; i < websitesResponses.size(); i++) {
 
-                        if (link.attr("href").contains("https://telugu.greatandhra.com/movies/movie-news")) {
+                    try {
+                        doc = (Document) Jsoup.connect(websitesResponses.get(i).getWeb_page_link());
+                        // get title of the page
+                        String title = doc.title();
+                        System.out.println("Title: " + title);
 
-                            // get the value from href attribute
-                            System.out.println("\nLink : " + link.attr("href"));
-                            System.out.println("Text : " + link.text());
+                        // get all links
+                        Elements links = doc.select("a[href]");
+                        for (Element link : links) {
+
+                            if (link.attr("href").contains("https://telugu.greatandhra.com/movies/movie-news")) {
+
+                                // get the value from href attribute
+                                System.out.println("\nLink : " + link.attr("href"));
+                                System.out.println("Text : " + link.text());
+                            }
+
                         }
-
+                        e.onNext(true);
+                        e.onComplete();
+                    } catch (Exception ex) {
+                        e.onError(ex);
+                        ex.printStackTrace();
                     }
 
-                } catch (IOException ex) {
-                    ex.printStackTrace();
                 }
 
+
             }
+
+
         });
 
     }
 
+    ;
 
     public Observable<List<CategoryResponse>> getCategoriesOfLanguage(final DatabaseReference database) {
 

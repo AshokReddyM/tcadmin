@@ -7,32 +7,51 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.byt_eye.tcadmin.R;
 import com.byt_eye.tcadmin.categories.CategoriesActivity;
 import com.byt_eye.tcadmin.data.FirebaseDataManager;
+import com.byt_eye.tcadmin.data.SyncService;
 import com.byt_eye.tcadmin.modals.CategoryResponse;
 import com.byt_eye.tcadmin.modals.WebsitesResponse;
 import com.byt_eye.tcadmin.new_list.NewsListActivity;
 import com.byt_eye.tcadmin.websites.activity.WebsitesActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity implements MainActivityMvp {
 
+
+    private static final String EXTRA_TRIGGER_SYNC_FLAG =
+            "com.admin.ui.main.MainActivity.EXTRA_TRIGGER_SYNC_FLAG";
+
     private String MyPREFERENCES = "notification";
     MainActivityPresenter presenter;
+    List<WebsitesResponse> websitesList;
+
+    public static Intent getStartIntent(Context context, boolean triggerDataSyncOnCreate) {
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.putExtra(EXTRA_TRIGGER_SYNC_FLAG, triggerDataSyncOnCreate);
+        return intent;
+    }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        websitesList = new ArrayList<>();
+
         presenter = new MainActivityPresenter();
         TextView websites = findViewById(R.id.tv_websites);
         TextView news = findViewById(R.id.tv_news);
         TextView categories = findViewById(R.id.tv_categories);
+
 
         presenter.getCategoriesOfLanguage(MainActivity.this, "Telugu", FirebaseDataManager.getCategoriesRef("Telugu"));
 
@@ -100,8 +119,21 @@ public class MainActivity extends AppCompatActivity implements MainActivityMvp {
     @Override
     public void onGettingWebsiteDetails(List<WebsitesResponse> websites) {
         for (int i = 0; i < websites.size(); i++) {
-            presenter.crawlWebsite(websites.get(i).getWeb_page_link());
+            websitesList.addAll(websitesList);
         }
+
+        if (getIntent().getBooleanExtra(EXTRA_TRIGGER_SYNC_FLAG, true)) {
+            startService(SyncService.getStartIntent(this,websites));
+        }
+
+        presenter.crawlWebsite(this, websitesList);
+
+    }
+
+    @Override
+    public void onWebsiteCrawlCompleted() {
+
+        Toast.makeText(this, "Sync Completed", Toast.LENGTH_SHORT).show();
     }
 }
 

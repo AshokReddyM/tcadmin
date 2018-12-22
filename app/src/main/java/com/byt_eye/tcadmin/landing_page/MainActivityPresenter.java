@@ -3,10 +3,8 @@ package com.byt_eye.tcadmin.landing_page;
 import android.app.Activity;
 
 import com.byt_eye.tcadmin.data.DataManager;
-import com.byt_eye.tcadmin.data.FirebaseDataManager;
 import com.byt_eye.tcadmin.modals.CategoryResponse;
 import com.byt_eye.tcadmin.modals.WebsitesResponse;
-import com.byt_eye.tcadmin.websites.activity.WebsitesActivityMvp;
 import com.google.firebase.database.DatabaseReference;
 
 import java.util.List;
@@ -49,7 +47,6 @@ public class MainActivityPresenter {
     }
 
 
-
     public void getCategoriesOfLanguage(final Activity activity, final String language, DatabaseReference databaseReference) {
         mDataManager.getCategoriesOfLanguage(databaseReference)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -62,7 +59,7 @@ public class MainActivityPresenter {
 
                     @Override
                     public void onNext(List<CategoryResponse> categoriesList) {
-                        ((MainActivityMvp) activity).onGettingLangCategoriesList(language,categoriesList);
+                        ((MainActivityMvp) activity).onGettingLangCategoriesList(language, categoriesList);
                     }
 
 
@@ -80,8 +77,34 @@ public class MainActivityPresenter {
 
     }
 
-    public void crawlWebsite(String web_page_link) {
-        mDataManager.crawlWebsite(web_page_link);
+    public void crawlWebsite(final Activity activity, List<WebsitesResponse> websites) {
+        mDataManager.crawlWebsite(websites)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Observer<Boolean>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(Boolean status) {
+
+                        ((MainActivityMvp) activity).onWebsiteCrawlCompleted();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
 
     }
+
+
 }

@@ -11,4 +11,7 @@ public interface MainActivityMvp {
     void onError(String message);
 
     void onGettingWebsiteDetails(List<WebsitesResponse> websites);
+
+    void onWebsiteCrawlCompleted();
+
 }
