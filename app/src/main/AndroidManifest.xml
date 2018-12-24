@@ -32,6 +32,11 @@
             android:exported="false"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
+        <service
+            android:name=".services.MyJobIntentService"
+            android:exported="false"
+            android:permission="android.permission.BIND_JOB_SERVICE"/>
+
         <receiver
             android:name=".listeners.NetworkChangeReceiver"
             android:label="NetworkChangeReceiver">

@@ -12,12 +12,13 @@ import android.widget.Toast;
 import com.byt_eye.tcadmin.R;
 import com.byt_eye.tcadmin.categories.CategoriesActivity;
 import com.byt_eye.tcadmin.data.FirebaseDataManager;
-import com.byt_eye.tcadmin.data.SyncService;
 import com.byt_eye.tcadmin.modals.CategoryResponse;
 import com.byt_eye.tcadmin.modals.WebsitesResponse;
 import com.byt_eye.tcadmin.new_list.NewsListActivity;
+import com.byt_eye.tcadmin.services.MyJobIntentService;
 import com.byt_eye.tcadmin.websites.activity.WebsitesActivity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,7 +40,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityMvp {
     }
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +54,11 @@ public class MainActivity extends AppCompatActivity implements MainActivityMvp {
 
 
         presenter.getCategoriesOfLanguage(MainActivity.this, "Telugu", FirebaseDataManager.getCategoriesRef("Telugu"));
+
+
+        Intent i = new Intent(this, MyJobIntentService.class);  //is any of that needed?  idk.
+        //note, putExtra remembers type and I need this to be an integer.  so get an integer first.
+        MyJobIntentService.enqueueWork(this, i);
 
 
 
@@ -122,9 +127,10 @@ public class MainActivity extends AppCompatActivity implements MainActivityMvp {
             websitesList.addAll(websitesList);
         }
 
-        if (getIntent().getBooleanExtra(EXTRA_TRIGGER_SYNC_FLAG, true)) {
-            startService(SyncService.getStartIntent(this,websites));
-        }
+        Intent i = new Intent(this, MyJobIntentService.class);
+        i.putExtra("websites", (Serializable) websites);
+        MyJobIntentService.enqueueWork(this, i);
+
 
         presenter.crawlWebsite(this, websitesList);
 

@@ -109,7 +109,7 @@ public class WebsitesListAdapter extends RecyclerView.Adapter<WebsitesListAdapte
 
                         break;
                     case 2:
-                        FirebaseDataManager.removeWebsite(context,((WebsitesActivity) context).language, ((WebsitesActivity) context).category.getKey(), websites.get(position).getWebId());
+                        FirebaseDataManager.removeWebsite(context,((WebsitesActivity) context).language, ((WebsitesActivity) context).categoryList.get(which).getKey(), websites.get(position).getWebId());
                         break;
                     case 3:
                         break;

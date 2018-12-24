@@ -118,7 +118,7 @@ public class DataManager {
                 for (int i = 0; i < websitesResponses.size(); i++) {
 
                     try {
-                        doc = (Document) Jsoup.connect(websitesResponses.get(i).getWeb_page_link());
+                        doc = Jsoup.connect(websitesResponses.get(i).getWeb_page_link()).get();
                         // get title of the page
                         String title = doc.title();
                         System.out.println("Title: " + title);
@@ -127,18 +127,19 @@ public class DataManager {
                         Elements links = doc.select("a[href]");
                         for (Element link : links) {
 
+/*
                             if (link.attr("href").contains("https://telugu.greatandhra.com/movies/movie-news")) {
+*/
 
-                                // get the value from href attribute
-                                System.out.println("\nLink : " + link.attr("href"));
-                                System.out.println("Text : " + link.text());
-                            }
+                            // get the value from href attribute
+                            System.out.println("\nLink : " + link.attr("href"));
+                            System.out.println("Text : " + link.text());
+                            /*  }*/
 
                         }
                         e.onNext(true);
                         e.onComplete();
                     } catch (Exception ex) {
-                        e.onError(ex);
                         ex.printStackTrace();
                     }
 

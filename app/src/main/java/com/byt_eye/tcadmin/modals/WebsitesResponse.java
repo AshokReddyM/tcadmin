@@ -1,6 +1,11 @@
 package com.byt_eye.tcadmin.modals;
 
-public class WebsitesResponse {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
+
+public class WebsitesResponse implements Serializable{
     private String website_name;
     private String date_of_update;
     private String web_page_link;
@@ -56,4 +61,5 @@ public class WebsitesResponse {
     public void setWebId(String webId) {
         this.webId = webId;
     }
+
 }
