@@ -123,16 +123,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityMvp {
 
     @Override
     public void onGettingWebsiteDetails(List<WebsitesResponse> websites) {
-        for (int i = 0; i < websites.size(); i++) {
-            websitesList.addAll(websitesList);
-        }
-
-        Intent i = new Intent(this, MyJobIntentService.class);
-        i.putExtra("websites", (Serializable) websites);
-        MyJobIntentService.enqueueWork(this, i);
-
-
-        presenter.crawlWebsite(this, websitesList);
+        presenter.crawlWebsite(this, websites);
 
     }
 

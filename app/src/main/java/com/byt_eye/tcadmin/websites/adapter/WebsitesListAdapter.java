@@ -98,7 +98,7 @@ public class WebsitesListAdapter extends RecyclerView.Adapter<WebsitesListAdapte
                         intent.putExtra("website_url", websites.get(position).getWeb_page_link());
                         intent.putExtra("website_filter", websites.get(position).getFilters());
                         intent.putExtra("website_id", websites.get(position).getWebId());
-                        intent.putExtra("category", ((WebsitesActivity) context).categoryList.get(which).getKey());
+                        intent.putExtra("category_id", websites.get(position).getCategory_id());
                         intent.putExtra("language", ((WebsitesActivity) context).language);
                         context.startActivity(intent);
                         break;
@@ -109,7 +109,7 @@ public class WebsitesListAdapter extends RecyclerView.Adapter<WebsitesListAdapte
 
                         break;
                     case 2:
-                        FirebaseDataManager.removeWebsite(context,((WebsitesActivity) context).language, ((WebsitesActivity) context).categoryList.get(which).getKey(), websites.get(position).getWebId());
+                        FirebaseDataManager.removeWebsite(context,((WebsitesActivity) context).language, websites.get(position).getCategory_id(), websites.get(position).getWebId());
                         break;
                     case 3:
                         break;

@@ -3,24 +3,29 @@ package com.byt_eye.tcadmin.modals;
 import java.io.Serializable;
 
 public class Websites implements Serializable {
-    String Website_name;
-    String web_page_link;
-    String date_of_update;
-    String filters;
+    private String website_name;
+    private String web_page_link;
+    private String date_of_update;
+    private String filters;
+    private String category_id;
+    private String language;
 
-    public Websites(String website_name, String web_page_link, String date_of_update, String filters) {
-        Website_name = website_name;
+    public Websites(String website_name, String web_page_link, String date_of_update, String filters, String category_id, String language) {
+        this.website_name = website_name;
         this.web_page_link = web_page_link;
         this.date_of_update = date_of_update;
         this.filters = filters;
+        this.category_id = category_id;
+        this.language = language;
     }
 
+
     public String getWebsite_name() {
-        return Website_name;
+        return website_name;
     }
 
     public void setWebsite_name(String website_name) {
-        Website_name = website_name;
+        this.website_name = website_name;
     }
 
     public String getWeb_page_link() {
@@ -45,5 +50,21 @@ public class Websites implements Serializable {
 
     public void setFilters(String filters) {
         this.filters = filters;
+    }
+
+    public String getCategory_id() {
+        return category_id;
+    }
+
+    public void setCategory_id(String category_id) {
+        this.category_id = category_id;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
     }
 }

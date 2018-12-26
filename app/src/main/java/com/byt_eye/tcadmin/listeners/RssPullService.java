@@ -64,7 +64,7 @@ public class RssPullService extends JobIntentService {
                 Log.d("Rss Service", " : Started");
 
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
-                mDatabase = database.getReference().child("home").child("News").child("Languages").child("Telugu").child("News");
+                mDatabase = database.getReference().child("home").child("News").child("Languages").child("Telugu").child("Websites");
 
                 context = getApplicationContext();
                 dbHelper = new DbOpenHelper(context);
@@ -156,7 +156,7 @@ public class RssPullService extends JobIntentService {
     private void setDataIntoFirebase(String title, String link, String imageUrl, String description) {
         //creating the post object to store uploaded image details
         String uploadId = mDatabase.push().getKey();
-        Post post = new Post(title, imageUrl, link, "0", settingCurrentTime(), uploadId, description);
+        Post post = new Post(title, imageUrl, link, "0", settingCurrentTime(), uploadId, description,"");
         mDatabase.child(uploadId).setValue(post);
 
     }

@@ -144,13 +144,6 @@ public class WebsitesActivity extends AppCompatActivity implements WebsitesActiv
     protected void showSelectReceiversDialog() {
 
         final String[] languages = new String[]{"English", "Hindi", "Telugu", "Tamil", "Kannada", "Marathi"};
-        DialogInterface.OnMultiChoiceClickListener receiversDialogListener = new DialogInterface.OnMultiChoiceClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-
-            }
-        };
-
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Select language");
         builder.setCancelable(true);
@@ -228,7 +221,7 @@ public class WebsitesActivity extends AppCompatActivity implements WebsitesActiv
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     Intent intent = new Intent(WebsitesActivity.this, WebsiteEditActivity.class);
-                    intent.putExtra("category", categoryList.get(which).getKey());
+                    intent.putExtra("category_id", categoryList.get(which).getKey());
                     intent.putExtra("language", language);
                     startActivity(intent);
                 }

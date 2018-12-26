@@ -126,15 +126,13 @@ public class DataManager {
                         // get all links
                         Elements links = doc.select("a[href]");
                         for (Element link : links) {
+                                if (!link.text().equals("") && !link.attr("href").equals("")) {
+                                    if (link.attr("href").contains(websitesResponses.get(i).getFilters())){
 
-/*
-                            if (link.attr("href").contains("https://telugu.greatandhra.com/movies/movie-news")) {
-*/
-
-                            // get the value from href attribute
-                            System.out.println("\nLink : " + link.attr("href"));
-                            System.out.println("Text : " + link.text());
-                            /*  }*/
+                                        FirebaseDataManager.postNewsIntoFireBase(websitesResponses.get(i).getLanguage(),
+                                            websitesResponses.get(i).getCategory_id(), link.text(), link.attr("href"), "", "");
+                                }
+                            }
 
                         }
                         e.onNext(true);
@@ -196,4 +194,6 @@ public class DataManager {
             }
         });
     }
+
+
 }

@@ -10,6 +10,20 @@ public class Post {
     private String totalViews;
     private String postTime;
     private String description;
+    private String category_id;
+
+
+    public Post(String unique_key, String title, String imageUrl, String link, String totalViews,
+                String postTime, String description, String category_id) {
+        this.unique_key = unique_key;
+        this.title = title;
+        this.imageUrl = imageUrl;
+        this.link = link;
+        this.totalViews = totalViews;
+        this.postTime = postTime;
+        this.description = description;
+        this.category_id = category_id;
+    }
 
     public String getTotalViews() {
         return totalViews;
@@ -27,18 +41,6 @@ public class Post {
         this.postTime = postTime;
     }
 
-
-    public Post(String title, String imageUrl, String link, String totalViews, String postTime, String unique_key, String description) {
-        this.title = title;
-        this.imageUrl = imageUrl;
-        this.link = link;
-        this.totalViews = totalViews;
-        this.postTime = postTime;
-        this.unique_key = unique_key;
-        this.description=description;
-    }
-
-
     public String getDescription() {
         return description;
     }
@@ -54,7 +56,6 @@ public class Post {
     public void setUnique_key(String unique_key) {
         this.unique_key = unique_key;
     }
-
 
     public String getTitle() {
         return title;
@@ -78,5 +79,13 @@ public class Post {
 
     public void setLink(String link) {
         this.link = link;
+    }
+
+    public String getCategory_id() {
+        return category_id;
+    }
+
+    public void setCategory_id(String category_id) {
+        this.category_id = category_id;
     }
 }

@@ -24,9 +24,9 @@ public class WebsiteEditActivity extends AppCompatActivity {
         String name = getIntent().getStringExtra("website_name");
         String link = getIntent().getStringExtra("website_url");
         String filter = getIntent().getStringExtra("website_filter");
-        final String id = getIntent().getStringExtra("website_id");
+        final String websiteId = getIntent().getStringExtra("website_id");
         final String language = getIntent().getStringExtra("language");
-        final String category = getIntent().getStringExtra("category");
+        final String categoryId = getIntent().getStringExtra("category_id");
 
         if (name != null && link != null) {
             websiteName.setText(name);
@@ -38,7 +38,7 @@ public class WebsiteEditActivity extends AppCompatActivity {
         update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseDataManager.updateWebsite(WebsiteEditActivity.this, language, category, id, websiteName.getText().toString(), websiteLink.getText().toString(), websiteFilter.getText().toString());
+                FirebaseDataManager.updateWebsite(WebsiteEditActivity.this, language, categoryId, websiteId, websiteName.getText().toString(), websiteLink.getText().toString(), websiteFilter.getText().toString());
             }
         });
 

@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.byt_eye.tcadmin.R;
 import com.byt_eye.tcadmin.modals.Post;
+import com.byt_eye.tcadmin.utils.DateTimeUtil;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -28,7 +29,7 @@ public class PostNewsActvity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_custom_news);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        mDatabase = database.getReference().child("tollywoodnews");
+        mDatabase = database.getReference().child("News").child("Languages");
 
         title = (EditText) findViewById(R.id.custom_title);
         url = (EditText) findViewById(R.id.custom_url);
@@ -41,7 +42,10 @@ public class PostNewsActvity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                setDataIntoFirebase(title.getText().toString(), url.getText().toString(), img.getText().toString(),"");
+                String uploadId = mDatabase.push().getKey();
+                String uniqueKey = url.getText().toString().replaceAll("[-+.^:,/@]", "");
+
+                Post post = new Post(uniqueKey, title.getText().toString(), img.getText().toString(), url.getText().toString(), "0", DateTimeUtil.getCurrentTime(), "", "");
                 Toast.makeText(PostNewsActvity.this, "News Posted", Toast.LENGTH_SHORT).show();
 
             }
@@ -51,21 +55,17 @@ public class PostNewsActvity extends AppCompatActivity {
     }
 
 
-
-    private void setDataIntoFirebase(String title, String link, String imageUrl,String description) {
+    private void setDataIntoFireBase(String language, String categoryId, String title, String link, String imageUrl, String description) {
         //creating the post object to store uploaded image details
+        mDatabase.child(language).child("News");
         String uploadId = mDatabase.push().getKey();
-        Post post = new Post(title, imageUrl, link, "0", settingCurrentTime(), uploadId,description);
+        String uniqueKey = link.replaceAll("[-+.^:,/@]", "");
+
+        Post post = new Post(uniqueKey, title, imageUrl, link, "0", DateTimeUtil.getCurrentTime(), description, categoryId);
         mDatabase.child(uploadId).setValue(post);
 
     }
 
 
 
-
-    public String settingCurrentTime() {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM yyyy HH:mm:ss");
-        Calendar calendar = Calendar.getInstance();
-        return sdf.format(calendar.getTime());
-    }
 }
